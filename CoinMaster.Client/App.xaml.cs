@@ -1,14 +1,34 @@
-﻿using System.Configuration;
-using System.Data;
+﻿using CoinMaster.Infrastructure.ApiClients.CoinCap;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
-namespace CoinMaster.Client
+namespace CoinMaster.Client;
+
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public App()
     {
+        var builder = new ConfigurationBuilder().AddJsonFile("appsettings.json");
+
+        Configuration = builder.Build();
+
+        var serviceCollection = new ServiceCollection();
+        ConfigureServices(serviceCollection);
+        Services = serviceCollection.BuildServiceProvider();
     }
 
+    public static IServiceProvider Services { get; private set; } = null!;
+
+    public static IConfiguration Configuration { get; private set; } = null!;
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton(Configuration);
+        services.AddHttpClient<CoinCapClient>();
+        services.AddSingleton<ICoinCapClient, CoinCapClient>();
+    }
 }

@@ -7,8 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ApiClients\" />
-    <Folder Include="Mapping\" />
+    <Folder Include="ApiClients\CoinGecko\" />
+    <Folder Include="ApiClients\CoinMarketCap\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="10.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CoinMaster.Core\CoinMaster.Core.csproj" />
+    <ProjectReference Include="..\CoinMaster.Shared\CoinMaster.Shared.csproj" />
   </ItemGroup>
 
 </Project>
