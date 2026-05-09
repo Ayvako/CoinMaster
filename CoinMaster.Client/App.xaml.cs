@@ -1,4 +1,6 @@
-﻿using CoinMaster.Infrastructure.ApiClients.CoinCap;
+﻿using CoinMaster.Core.Interfaces;
+using CoinMaster.Core.Services;
+using CoinMaster.Infrastructure.ApiClients.CoinCap;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -28,7 +30,7 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(Configuration);
-        services.AddHttpClient<CoinCapClient>();
-        services.AddSingleton<ICoinCapClient, CoinCapClient>();
+        services.AddHttpClient<ICoinProvider, CoinCapClient>();
+        services.AddTransient<ICoinService, CoinService>();
     }
 }

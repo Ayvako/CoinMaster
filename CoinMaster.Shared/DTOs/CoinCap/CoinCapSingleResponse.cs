@@ -1,8 +1,8 @@
 ﻿namespace CoinMaster.Shared.DTOs.CoinCap;
 
-public class CoinCapResponse
+public class CoinCapSingleResponse
 {
-    public List<CoinCapDto> Data { get; set; } = [];
+    public CoinCapDto Data { get; set; }
 
     public long Timestamp { get; set; }
 }
