@@ -21,4 +21,6 @@ public class Coin
     public decimal VolumeUsd24Hr { get; set; }
 
     public List<Market> Markets { get; set; } = [];
+
+    public List<Candle> OhlcData { get; set; } = [];
 }

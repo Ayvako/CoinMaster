@@ -14,8 +14,7 @@ public class CoinCapClient : BaseApiClient, ICoinProvider
 
     public async Task<Coin> GetDetailsAsync(string id)
     {
-        var response = await GetAsync<CoinCapSingleResponse>(
-            $"assets/{id}");
+        var response = await GetAsync<CoinCapSingleResponse>($"assets/{id}");
 
         return response?.Data != null ? DtoMapper.ToCoin(response.Data) : new Coin();
     }
@@ -26,9 +25,8 @@ public class CoinCapClient : BaseApiClient, ICoinProvider
         {
             ["limit"] = limit.ToString()
         };
-        var response = await GetAsync<CoinCapResponse>(
-            "assets", queryParams: query);
+        var response = await GetAsync<CoinCapResponse>("assets", queryParams: query);
 
-        return response?.Data?.Select(DtoMapper.ToCoin).ToList() ?? new List<Coin>();
+        return response?.Data?.Select(DtoMapper.ToCoin).ToList() ?? [];
     }
 }

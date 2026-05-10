@@ -32,10 +32,14 @@ public partial class App : Application
     {
         services.AddSingleton(Configuration);
         services.AddHttpClient<ICoinProvider, CoinCapClient>();
-        services.AddHttpClient<IMarketProvider, CoinGeckoClient>(client =>
+
+        services.AddHttpClient<CoinGeckoClient>(client =>
         {
             client.DefaultRequestHeaders.Add("User-Agent", "CoinMasterApp/1.0");
         });
+
+        services.AddTransient<IChartProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
+        services.AddTransient<IMarketProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
 
         services.AddTransient<ICoinService, CoinService>();
     }

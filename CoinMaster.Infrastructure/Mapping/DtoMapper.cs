@@ -32,4 +32,16 @@ public static class DtoMapper
             TradeUrl = dto.TradeUrl
         };
     }
+
+    public static Candle ToCandle(List<decimal> data)
+    {
+        return new Candle
+        {
+            Timestamp = DateTimeOffset.FromUnixTimeMilliseconds((long)data[0]).UtcDateTime,
+            Open = data[1],
+            High = data[2],
+            Low = data[3],
+            Close = data[4]
+        };
+    }
 }

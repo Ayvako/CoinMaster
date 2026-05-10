@@ -6,5 +6,5 @@ public interface ICoinService
 {
     Task<List<Coin>> GetTopCoinsAsync(int limit = 10);
 
-    Task<Coin> GetDetailsAsync(string id);
+    Task<Coin> GetDetailsAsync(string id, string days = "7");
 }

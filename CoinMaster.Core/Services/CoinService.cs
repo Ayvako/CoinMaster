@@ -9,16 +9,26 @@ public class CoinService : ICoinService
 
     private readonly IMarketProvider marketProvider;
 
-    public CoinService(ICoinProvider client, IMarketProvider marketProvider)
+    private readonly IChartProvider chartProvider;
+
+    public CoinService(ICoinProvider client, IMarketProvider marketProvider, IChartProvider chartProvider)
     {
         this.client = client;
         this.marketProvider = marketProvider;
+        this.chartProvider = chartProvider;
     }
 
-    public async Task<Coin> GetDetailsAsync(string id)
+    public async Task<Coin> GetDetailsAsync(string id, string days = "7")
     {
-        var coin = await client.GetDetailsAsync(id);
-        coin.Markets = marketProvider.GetMarketsAsync(id).Result;
+        var coinTask = client.GetDetailsAsync(id);
+        var marketsTask = marketProvider.GetMarketsAsync(id);
+        var ohlcTask = chartProvider.GetOhlcAsync(id, days);
+
+        await Task.WhenAll(coinTask, marketsTask, ohlcTask);
+        var coin = coinTask.Result;
+
+        coin.Markets = marketsTask.Result?.Take(10).ToList() ?? [];
+        coin.OhlcData = ohlcTask.Result ?? [];
         return coin;
     }
 
