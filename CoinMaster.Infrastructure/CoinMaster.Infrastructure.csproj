@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ApiClients\CoinGecko\" />
     <Folder Include="ApiClients\CoinMarketCap\" />
   </ItemGroup>
 

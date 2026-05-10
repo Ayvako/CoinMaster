@@ -7,11 +7,20 @@ public class CoinService : ICoinService
 {
     private readonly ICoinProvider client;
 
-    public CoinService(ICoinProvider client)
-        => this.client = client;
+    private readonly IMarketProvider marketProvider;
 
-    public Task<Coin> GetDetailsAsync(string id) =>
-        client.GetDetailsAsync(id);
+    public CoinService(ICoinProvider client, IMarketProvider marketProvider)
+    {
+        this.client = client;
+        this.marketProvider = marketProvider;
+    }
+
+    public async Task<Coin> GetDetailsAsync(string id)
+    {
+        var coin = await client.GetDetailsAsync(id);
+        coin.Markets = marketProvider.GetMarketsAsync(id).Result;
+        return coin;
+    }
 
     public Task<List<Coin>> GetTopCoinsAsync(int limit = 10)
         => client.GetTopCoinsAsync(limit);

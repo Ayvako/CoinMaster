@@ -19,4 +19,6 @@ public class Coin
     public decimal? MaxSupply { get; set; }
 
     public decimal VolumeUsd24Hr { get; set; }
+
+    public List<Market> Markets { get; set; } = [];
 }

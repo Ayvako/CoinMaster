@@ -1,6 +1,7 @@
 ﻿using CoinMaster.Core.Interfaces;
 using CoinMaster.Core.Services;
 using CoinMaster.Infrastructure.ApiClients.CoinCap;
+using CoinMaster.Infrastructure.ApiClients.CoinGecko;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -31,6 +32,11 @@ public partial class App : Application
     {
         services.AddSingleton(Configuration);
         services.AddHttpClient<ICoinProvider, CoinCapClient>();
+        services.AddHttpClient<IMarketProvider, CoinGeckoClient>(client =>
+        {
+            client.DefaultRequestHeaders.Add("User-Agent", "CoinMasterApp/1.0");
+        });
+
         services.AddTransient<ICoinService, CoinService>();
     }
 }

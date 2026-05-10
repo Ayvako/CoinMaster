@@ -63,6 +63,12 @@ public abstract class BaseApiClient : IApiClient
                     continue;
                 }
 
+                if ((int)response.StatusCode >= 400)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync(ct);
+                    throw new HttpRequestException($"Request failed with status code {(int)response.StatusCode} ({response.ReasonPhrase}): {errorContent}");
+                }
+
                 response.EnsureSuccessStatusCode();
             }
 
