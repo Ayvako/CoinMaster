@@ -3,14 +3,13 @@ using CoinMaster.Core.Interfaces;
 using CoinMaster.Infrastructure.ApiClients.Base;
 using CoinMaster.Infrastructure.Mapping;
 using CoinMaster.Shared.DTOs.CoinCap;
-using Microsoft.Extensions.Configuration;
 
 namespace CoinMaster.Infrastructure.ApiClients.CoinCap;
 
 public class CoinCapClient : BaseApiClient, ICoinProvider
 {
-    public CoinCapClient(HttpClient httpClient, IConfiguration configuration)
-        : base(httpClient, configuration["CoinCap:BaseUrl"], configuration["CoinCap:ApiKey"]) { }
+    public CoinCapClient(HttpClient httpClient)
+        : base(httpClient) { }
 
     public async Task<Coin> GetDetailsAsync(string id)
     {

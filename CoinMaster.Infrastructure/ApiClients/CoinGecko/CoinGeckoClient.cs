@@ -3,14 +3,13 @@ using CoinMaster.Core.Interfaces;
 using CoinMaster.Infrastructure.ApiClients.Base;
 using CoinMaster.Infrastructure.Mapping;
 using CoinMaster.Shared.DTOs.CoinGecko;
-using Microsoft.Extensions.Configuration;
 
 namespace CoinMaster.Infrastructure.ApiClients.CoinGecko;
 
 public class CoinGeckoClient : BaseApiClient, IMarketProvider, IChartProvider
 {
-    public CoinGeckoClient(HttpClient httpClient, IConfiguration configuration)
-    : base(httpClient, configuration["CoinGecko:BaseUrl"], configuration["CoinGecko:ApiKey"]) { }
+    public CoinGeckoClient(HttpClient httpClient)
+    : base(httpClient) { }
 
     public async Task<List<Market>> GetMarketsAsync(string coinId, int limit = 10)
     {

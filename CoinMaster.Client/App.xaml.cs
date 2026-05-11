@@ -31,11 +31,26 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(Configuration);
-        services.AddHttpClient<ICoinProvider, CoinCapClient>();
+        services.AddHttpClient<ICoinProvider, CoinCapClient>(client =>
+        {
+            client.BaseAddress = new Uri(Configuration["CoinCap:BaseUrl"]);
+            var apiKey = Configuration["CoinCap:ApiKey"];
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+            }
+        });
 
         services.AddHttpClient<CoinGeckoClient>(client =>
         {
+            client.BaseAddress = new Uri(Configuration["CoinGecko:BaseUrl"]);
             client.DefaultRequestHeaders.Add("User-Agent", "CoinMasterApp/1.0");
+
+            var apiKey = Configuration["CoinGecko:ApiKey"];
+            if (!string.IsNullOrEmpty(apiKey))
+            {
+                client.DefaultRequestHeaders.Add("x-cg-demo-api-key", apiKey);
+            }
         });
 
         services.AddTransient<IChartProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());

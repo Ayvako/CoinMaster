@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -11,19 +10,9 @@ public abstract class BaseApiClient : IApiClient
 
     private const int MaxAttempts = 3;
 
-    protected BaseApiClient(HttpClient httpClient, string baseUrl, string? apiKey = null)
+    protected BaseApiClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
-
-        if (this.httpClient.BaseAddress == null)
-        {
-            this.httpClient.BaseAddress = new Uri(baseUrl);
-        }
-
-        if (apiKey is not null && this.httpClient.DefaultRequestHeaders.Authorization == null)
-        {
-            this.httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiKey);
-        }
     }
 
     public Task<T?> GetAsync<T>(string endpoint, CancellationToken ct = default) => GetAsync<T>(endpoint, null, ct);
