@@ -12,8 +12,14 @@
     <!-- Text -->
     <SolidColorBrush x:Key="PrimaryTextBrush"         Color="#111827" />
     <SolidColorBrush x:Key="PriceTextBrush"           Color="#111827" />
+    <SolidColorBrush x:Key="SecondaryTextBrush"       Color="#6B7280" />
 
     <SolidColorBrush x:Key="AccentBrush"              Color="#0077FF" />
+
+    <!-- Chart candles -->
+    <SolidColorBrush x:Key="BullishBrush"             Color="#18A05A" />
+    <SolidColorBrush x:Key="BearishBrush"             Color="#E03232" />
+    <SolidColorBrush x:Key="ChartGridBrush"           Color="#EEF0F6" />
 
     <!-- Column header -->
     <SolidColorBrush x:Key="HeaderBackgroundBrush"    Color="#FAFBFD" />

@@ -6,6 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml" />
+
                 <ResourceDictionary Source="Themes/DarkTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
@@ -14,6 +16,10 @@
             <converters:CompactPercentConverter x:Key="CompactPercentConverter" />
             <converters:PriceConverter x:Key="PriceConverter" />
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
+            <converters:EqualityConverter x:Key="EqualityConverter" />
+            <converters:CompactConverter x:Key="CompactConverter" />
+
         </ResourceDictionary>
     </Application.Resources>
 

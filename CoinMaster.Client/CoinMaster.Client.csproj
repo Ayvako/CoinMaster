@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CoinMaster.Infrastructure\CoinMaster.Infrastructure.csproj" />
   </ItemGroup>
 

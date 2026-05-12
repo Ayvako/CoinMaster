@@ -74,6 +74,7 @@ public partial class App : Application
         services.AddTransient<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainViewModel>();
+        services.AddTransient<CoinDetailsViewModel>();
 
         services.AddSingleton<INavigationService, NavigationService>();
 
