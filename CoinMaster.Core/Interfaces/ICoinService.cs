@@ -9,4 +9,6 @@ public interface ICoinService
     Task<Coin> GetDetailsAsync(string id, string days = "7");
 
     Task<decimal> ConvertAsync(string fromCoinId, string toCoinId, decimal amount);
+
+    Task<List<Coin>> SearchCoinsAsync(string searchQuery);
 }

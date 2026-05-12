@@ -53,4 +53,8 @@ public class CoinService : ICoinService
 
     public Task<List<Coin>> GetTopCoinsAsync(int limit = 10)
         => coinProvider.GetTopCoinsAsync(limit);
+
+    public Task<List<Coin>> SearchCoinsAsync(string searchQuery)
+        => coinProvider.SearchCoinsAsync(searchQuery);
+
 }

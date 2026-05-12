@@ -52,6 +52,11 @@ public abstract class BaseApiClient : IApiClient
                     continue;
                 }
 
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                {
+                    return (T?)default;
+                }
+
                 if ((int)response.StatusCode >= 400)
                 {
                     var errorContent = await response.Content.ReadAsStringAsync(ct);

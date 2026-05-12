@@ -11,11 +11,11 @@ public class CoinCapClient : BaseApiClient, ICoinProvider
     public CoinCapClient(HttpClient httpClient)
         : base(httpClient) { }
 
-    public async Task<Coin> GetDetailsAsync(string id)
+    public async Task<Coin?> GetDetailsAsync(string id)
     {
         var response = await GetAsync<CoinCapSingleResponse>($"assets/{id}");
 
-        return response?.Data != null ? DtoMapper.ToCoin(response.Data) : new Coin();
+        return response?.Data != null ? DtoMapper.ToCoin(response.Data) : null;
     }
 
     public async Task<List<Coin>> GetTopCoinsAsync(int limit = 10)
@@ -23,6 +23,17 @@ public class CoinCapClient : BaseApiClient, ICoinProvider
         var query = new Dictionary<string, string>
         {
             ["limit"] = limit.ToString()
+        };
+        var response = await GetAsync<CoinCapResponse>("assets", queryParams: query);
+
+        return response?.Data?.Select(DtoMapper.ToCoin).ToList() ?? [];
+    }
+
+    public async Task<List<Coin>> SearchCoinsAsync(string queryText)
+    {
+        var query = new Dictionary<string, string>
+        {
+            ["search"] = queryText
         };
         var response = await GetAsync<CoinCapResponse>("assets", queryParams: query);
 
