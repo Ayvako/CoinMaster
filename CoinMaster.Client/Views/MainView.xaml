@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="CoinMaster.Client.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:CoinMaster.Client.ViewModels"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
+             mc:Ignorable="d"
+             d:DesignHeight="600" d:DesignWidth="900"
+             Background="{DynamicResource AppBackgroundBrush}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- HEADER -->
+        <Grid Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Ринок криптовалют"
+                       FontSize="22" FontWeight="Bold"
+                       Foreground="{DynamicResource PrimaryTextBrush}"
+                       VerticalAlignment="Center" />
+            <Button HorizontalAlignment="Right"
+                    Content="{Binding ThemeIcon}"
+                    Command="{Binding ToggleThemeCommand}"
+                    Width="36" Height="36"
+                    FontSize="16" Cursor="Hand"
+                    Background="{DynamicResource SurfaceBrush}"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1" />
+        </Grid>
+
+        <!-- SEARCH -->
+        <Grid Grid.Row="1" Margin="0,0,0,12">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="380" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Grid.Column="0"
+                     Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}"
+                     Height="34" Padding="8,0"
+                     VerticalContentAlignment="Center"
+                     FontSize="13"
+                     Background="{DynamicResource SurfaceBrush}"
+                     Foreground="{DynamicResource PrimaryTextBrush}"
+                     BorderBrush="{DynamicResource CardBorderBrush}"
+                     BorderThickness="1"
+                     CaretBrush="{DynamicResource PrimaryTextBrush}" />
+
+            <Button Grid.Column="1"
+                    Content="Знайти"
+                    Command="{Binding SearchCommand}"
+                    Height="34" Padding="18,0"
+                    Margin="8,0,0,0"
+                    FontSize="13" FontWeight="SemiBold" Cursor="Hand"
+                    Foreground="White"
+                    Background="{DynamicResource AccentBrush}"
+                    BorderThickness="0" />
+        </Grid>
+
+        <!-- DATA GRID -->
+        <Border Grid.Row="2"
+            Background="{DynamicResource SurfaceBrush}"
+            BorderBrush="{DynamicResource CardBorderBrush}"
+            BorderThickness="1"
+            VerticalAlignment="Top"
+            ClipToBounds="True">
+            <DataGrid ItemsSource="{Binding TopCoins}"
+                AutoGenerateColumns="False"
+                IsReadOnly="True"
+                Background="Transparent"
+                BorderThickness="0"
+                HeadersVisibility="Column"
+                GridLinesVisibility="Horizontal"
+                HorizontalGridLinesBrush="{DynamicResource GridLineBrush}"
+                RowHeight="44"
+                SelectionMode="Single"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background"  Value="{DynamicResource HeaderBackgroundBrush}" />
+                        <Setter Property="Foreground"  Value="{DynamicResource HeaderForegroundBrush}" />
+                        <Setter Property="FontSize"    Value="11" />
+                        <Setter Property="FontWeight"  Value="Bold" />
+                        <Setter Property="Padding"     Value="12,10" />
+                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                        <Setter Property="BorderBrush" Value="{DynamicResource GridLineBrush}" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background"  Value="Transparent" />
+                        <Setter Property="Foreground"  Value="{DynamicResource PrimaryTextBrush}" />
+                        <Setter Property="FontSize"    Value="13" />
+                        <Setter Property="Cursor"      Value="Hand" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SurfaceHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource SurfaceSelectedBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="BorderThickness"  Value="0" />
+                        <Setter Property="Background"       Value="Transparent" />
+                        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="DataGridCell">
+                                    <Border Padding="12,0" Background="Transparent">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="Transparent" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="#"
+                                    Binding="{Binding Rank}"
+                                    Width="Auto"
+                                    MinWidth="45" />
+
+                    <DataGridTextColumn Header="НАЗВА"
+                                    Binding="{Binding Name}"
+                                    Width="*" />
+
+                    <DataGridTextColumn Header="КОД"
+                                    Binding="{Binding Symbol}"
+                                    Width="80" />
+
+                    <DataGridTemplateColumn Header="ЦІНА (USD)" Width="140">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PriceUsd,
+                                               Converter={StaticResource PriceConverter}}"
+                                       FontFamily="Consolas" FontWeight="Bold"
+                                       Foreground="{DynamicResource PriceTextBrush}"
+                                       VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="ЗМІНА (24Г)" Width="110">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Change24Hr,
+                                               Converter={StaticResource CompactPercentConverter}}"
+                                       FontWeight="SemiBold"
+                                       VerticalAlignment="Center"
+                                       Foreground="{Binding Change24Hr,
+                                           Converter={StaticResource PriceColorConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </Grid>
+</UserControl>

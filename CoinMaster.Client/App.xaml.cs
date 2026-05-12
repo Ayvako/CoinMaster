@@ -1,9 +1,11 @@
-﻿using CoinMaster.Core.Interfaces;
+﻿using CoinMaster.Client.ViewModels;
+using CoinMaster.Core.Interfaces;
 using CoinMaster.Core.Services;
 using CoinMaster.Infrastructure.ApiClients.CoinCap;
 using CoinMaster.Infrastructure.ApiClients.CoinGecko;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows;
 
 namespace CoinMaster.Client;
@@ -22,6 +24,17 @@ public partial class App : Application
         var serviceCollection = new ServiceCollection();
         ConfigureServices(serviceCollection);
         Services = serviceCollection.BuildServiceProvider();
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        var mainWindow = Services.GetRequiredService<MainWindow>();
+
+        mainWindow.DataContext = Services.GetRequiredService<MainWindowViewModel>();
+
+        mainWindow.Show();
     }
 
     public static IServiceProvider Services { get; private set; } = null!;
@@ -57,5 +70,10 @@ public partial class App : Application
         services.AddTransient<IMarketProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
 
         services.AddTransient<ICoinService, CoinService>();
+
+        services.AddTransient<MainWindow>();
+        services.AddSingleton<MainWindowViewModel>();
+        services.AddTransient<MainViewModel>();
+
     }
 }

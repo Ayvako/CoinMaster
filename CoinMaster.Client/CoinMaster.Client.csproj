@@ -34,7 +34,6 @@
     <Folder Include="Views\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Resources\" />
-    <Folder Include="Converters\" />
   </ItemGroup>
 
   <ItemGroup>
