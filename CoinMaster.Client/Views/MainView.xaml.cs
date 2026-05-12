@@ -1,5 +1,7 @@
 ﻿using CoinMaster.Client.ViewModels;
+using CoinMaster.Core.Entities;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CoinMaster.Client.Views;
 
@@ -18,7 +20,17 @@ public partial class MainView : UserControl
     {
         if (this.DataContext is MainViewModel viewModel)
         {
-            _ = viewModel.LoadTopCoinsAsync();
+            _ = viewModel.InitializeAsync();
+        }
+    }
+
+    private void SelectCoin(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is DataGridRow row &&
+            row.DataContext is Coin coin &&
+            this.DataContext is MainViewModel viewModel)
+        {
+            _ = viewModel.SelectCoin(coin);
         }
     }
 }

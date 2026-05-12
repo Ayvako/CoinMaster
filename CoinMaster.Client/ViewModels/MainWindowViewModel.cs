@@ -1,4 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CoinMaster.Client.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CoinMaster.Client.ViewModels;
 
@@ -7,8 +9,44 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private object currentViewModel;
 
-    public MainWindowViewModel(MainViewModel mainVm)
+    [ObservableProperty]
+    private bool canNavigateBack;
+
+    private readonly INavigationService navigation;
+
+    [ObservableProperty]
+    private string themeIcon = "☀";
+
+    private void UpdateThemeIcon() => ThemeIcon = ThemeManager.IsDark ? "☀" : "☾";
+
+    public MainWindowViewModel(MainViewModel mainVm, INavigationService navigation)
     {
+        this.navigation = navigation;
         currentViewModel = mainVm;
+        ThemeManager.Initialize();
+        UpdateThemeIcon();
+        ThemeManager.ThemeChanged += (s, isDark) => UpdateThemeIcon();
+
+        navigation.CanGoBackChanged += (_, value) =>
+        {
+            CanNavigateBack = value;
+            GoBackCommand.NotifyCanExecuteChanged();
+        };
+    }
+
+    [RelayCommand]
+    private void ToggleTheme()
+    {
+        ThemeManager.Toggle();
+        UpdateThemeIcon();
+    }
+
+    private bool CanGoBack() => navigation.CanGoBack;
+
+    [RelayCommand(CanExecute = nameof(CanGoBack))]
+    private void GoBack()
+    {
+        navigation.GoBack();
+        CanNavigateBack = navigation.CanGoBack;
     }
 }

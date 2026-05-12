@@ -1,5 +1,4 @@
-﻿using CoinMaster.Client.Services;
-using CoinMaster.Client.ViewModels;
+﻿using CoinMaster.Client.ViewModels;
 using System.Windows;
 
 namespace CoinMaster.Client;

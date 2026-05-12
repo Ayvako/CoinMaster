@@ -9,7 +9,7 @@
              d:DesignHeight="600" d:DesignWidth="900"
              Background="{DynamicResource AppBackgroundBrush}">
 
-    <Grid Margin="24">
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -22,15 +22,6 @@
                        FontSize="22" FontWeight="Bold"
                        Foreground="{DynamicResource PrimaryTextBrush}"
                        VerticalAlignment="Center" />
-            <Button HorizontalAlignment="Right"
-                    Content="{Binding ThemeIcon}"
-                    Command="{Binding ToggleThemeCommand}"
-                    Width="36" Height="36"
-                    FontSize="16" Cursor="Hand"
-                    Background="{DynamicResource SurfaceBrush}"
-                    Foreground="{DynamicResource PrimaryTextBrush}"
-                    BorderBrush="{DynamicResource CardBorderBrush}"
-                    BorderThickness="1" />
         </Grid>
 
         <!-- SEARCH -->
@@ -101,6 +92,9 @@
                         <Setter Property="FontSize"    Value="13" />
                         <Setter Property="Cursor"      Value="Hand" />
                         <Setter Property="BorderThickness" Value="0" />
+                        <EventSetter Event="MouseLeftButtonDown"
+                            Handler="SelectCoin" />
+
                         <Style.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter Property="Background" Value="{DynamicResource SurfaceHoverBrush}" />

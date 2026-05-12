@@ -12,21 +12,18 @@ public partial class MainViewModel : ObservableObject
 {
     private readonly ICoinService coinService;
 
+    private readonly INavigationService navigation;
+
     [ObservableProperty]
     private ObservableCollection<Coin> topCoins = [];
 
     [ObservableProperty]
     private string searchQuery = string.Empty;
 
-    [ObservableProperty]
-    private string themeIcon = "☀";
-
-    public MainViewModel(ICoinService coinService)
+    public MainViewModel(ICoinService coinService, INavigationService navigation)
     {
         this.coinService = coinService;
-        ThemeManager.Initialize();
-        UpdateThemeIcon();
-        ThemeManager.ThemeChanged += (s, isDark) => UpdateThemeIcon();
+        this.navigation = navigation;
     }
 
     public async Task LoadTopCoinsAsync()
@@ -42,14 +39,16 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
-    private void ToggleTheme()
+    public async Task InitializeAsync()
     {
-        ThemeManager.Toggle();
-        UpdateThemeIcon();
+        if (TopCoins.Any()) return;
+        await LoadTopCoinsAsync();
     }
 
-    private void UpdateThemeIcon() => ThemeIcon = ThemeManager.IsDark ? "☀" : "☾";
+    public async Task SelectCoin(Coin coin)
+    {
+        await navigation.NavigateToAsync<CoinDetailsViewModel>(vm => vm.Load(coin));
+    }
 
     [RelayCommand]
     private async Task SearchAsync()

@@ -1,11 +1,11 @@
-﻿using CoinMaster.Client.ViewModels;
+﻿using CoinMaster.Client.Services;
+using CoinMaster.Client.ViewModels;
 using CoinMaster.Core.Interfaces;
 using CoinMaster.Core.Services;
 using CoinMaster.Infrastructure.ApiClients.CoinCap;
 using CoinMaster.Infrastructure.ApiClients.CoinGecko;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Windows;
 
 namespace CoinMaster.Client;
@@ -73,7 +73,9 @@ public partial class App : Application
 
         services.AddTransient<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();
-        services.AddTransient<MainViewModel>();
+        services.AddSingleton<MainViewModel>();
+
+        services.AddSingleton<INavigationService, NavigationService>();
 
     }
 }

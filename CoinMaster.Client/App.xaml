@@ -13,7 +13,7 @@
             <converters:PriceColorConverter x:Key="PriceColorConverter" />
             <converters:CompactPercentConverter x:Key="CompactPercentConverter" />
             <converters:PriceConverter x:Key="PriceConverter" />
-
+            <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 
