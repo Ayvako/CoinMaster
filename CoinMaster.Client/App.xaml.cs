@@ -70,6 +70,8 @@ public partial class App : Application
         services.AddTransient<IMarketProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
 
         services.AddTransient<ICoinService, CoinService>();
+        services.AddTransient<IChartService, ChartService>();
+        services.AddTransient<IMarketService, MarketService>();
 
         services.AddTransient<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();

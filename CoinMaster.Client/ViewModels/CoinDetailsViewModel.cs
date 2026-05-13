@@ -10,14 +10,14 @@ public partial class CoinDetailsViewModel : ObservableObject
 
     private readonly ICoinService coinService;
 
-    private readonly IChartProvider chartProvider;
+    private readonly IChartService chartService;
 
     private string coinId = string.Empty;
 
-    public CoinDetailsViewModel(ICoinService coinService, IChartProvider chartProvider)
+    public CoinDetailsViewModel(ICoinService coinService, IChartService chartService)
     {
         this.coinService = coinService;
-        this.chartProvider = chartProvider;
+        this.chartService = chartService;
     }
 
     [ObservableProperty]
@@ -72,7 +72,7 @@ public partial class CoinDetailsViewModel : ObservableObject
         IsLoadingChart = true;
         try
         {
-            Candles = await chartProvider.GetOhlcAsync(coinId, SelectedPeriod.Days);
+            Candles = await chartService.GetOhlcAsync(coinId, SelectedPeriod.Days);
         }
         finally
         {

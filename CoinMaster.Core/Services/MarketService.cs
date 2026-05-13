@@ -1,0 +1,19 @@
+﻿using CoinMaster.Core.Entities;
+using CoinMaster.Core.Interfaces;
+
+namespace CoinMaster.Core.Services;
+
+public class MarketService : IMarketService
+{
+    private readonly IMarketProvider marketProvider;
+
+    public MarketService(IMarketProvider marketProvider)
+    {
+        this.marketProvider = marketProvider;
+    }
+
+    public Task<List<Market>> GetMarketsAsync(string coinId, int limit = 10)
+    {
+        return marketProvider.GetMarketsAsync(coinId, limit);
+    }
+}

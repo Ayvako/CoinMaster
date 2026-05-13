@@ -7,41 +7,22 @@ public class CoinService : ICoinService
 {
     private readonly ICoinProvider coinProvider;
 
-    private readonly IMarketProvider marketProvider;
+    private readonly IMarketService marketService;
 
-    private readonly IChartProvider chartProvider;
+    private readonly IChartService chartService;
 
-    public CoinService(ICoinProvider coinProvider, IMarketProvider marketProvider, IChartProvider chartProvider)
+    public CoinService(ICoinProvider coinProvider, IMarketService marketService, IChartService chartService)
     {
         this.coinProvider = coinProvider;
-        this.marketProvider = marketProvider;
-        this.chartProvider = chartProvider;
-    }
-
-    public async Task<decimal> ConvertAsync(string fromCoinId, string toCoinId, decimal amount)
-    {
-        var fromTask = coinProvider.GetDetailsAsync(fromCoinId);
-        var toTask = coinProvider.GetDetailsAsync(toCoinId);
-
-        await Task.WhenAll(fromTask, toTask);
-
-        var fromCoin = fromTask.Result;
-        var toCoin = toTask.Result;
-
-        if (fromCoin == null || toCoin == null)
-            throw new InvalidOperationException($"Coin not found");
-
-        if (toCoin.PriceUsd == 0)
-            throw new InvalidOperationException($"{toCoinId} has zero price");
-
-        return amount * (fromCoin.PriceUsd / toCoin.PriceUsd);
+        this.marketService = marketService;
+        this.chartService = chartService;
     }
 
     public async Task<Coin> GetDetailsAsync(string id, string days = "7")
     {
         var coinTask = coinProvider.GetDetailsAsync(id);
-        var marketsTask = marketProvider.GetMarketsAsync(id);
-        var ohlcTask = chartProvider.GetOhlcAsync(id, days);
+        var marketsTask = marketService.GetMarketsAsync(id);
+        var ohlcTask = chartService.GetOhlcAsync(id, days);
 
         await Task.WhenAll(coinTask, marketsTask, ohlcTask);
         var coin = coinTask.Result;
