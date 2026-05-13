@@ -69,7 +69,7 @@
                         Margin="0,0,0,8"
                         FontSize="14"
                         Foreground="{DynamicResource SecondaryTextBrush}"
-                        Text="Поточна ціна" />
+                        Text="{DynamicResource CoinDetails.CurrentPrice}" />
                     <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
                         <TextBlock
                             FontFamily="Consolas"
@@ -109,7 +109,7 @@
                             Margin="0,0,0,8"
                             FontSize="13"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="Капіталізація (Market Cap)" />
+                            Text="{DynamicResource CoinDetails.MarketCap}" />
                         <TextBlock
                             FontFamily="Consolas"
                             FontSize="20"
@@ -131,7 +131,7 @@
                             Margin="0,0,0,8"
                             FontSize="13"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="Об'єм (24 год)" />
+                            Text="{DynamicResource CoinDetails.Volume24H}" />
                         <TextBlock
                             FontFamily="Consolas"
                             FontSize="20"
@@ -153,13 +153,26 @@
                             Margin="0,0,0,8"
                             FontSize="13"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="Макс. пропозиція" />
+                            Text="{DynamicResource CoinDetails.MaxSupply}" />
                         <TextBlock
                             FontFamily="Consolas"
                             FontSize="20"
                             FontWeight="SemiBold"
-                            Foreground="{DynamicResource PrimaryTextBrush}"
-                            Text="{Binding Coin.MaxSupply, StringFormat={}{0:N0}, TargetNullValue='Безліміт'}" />
+                            Foreground="{DynamicResource PrimaryTextBrush}">
+                            <TextBlock.Style>
+
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="{Binding Coin.MaxSupply, StringFormat={}{0:N0}}" />
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Coin.MaxSupply, StringFormat={}{0:N0}}" Value="{x:Null}">
+                                            <Setter Property="Text" Value="{DynamicResource CoinDetails.Unlimited}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+
+                        </TextBlock>
                     </StackPanel>
                 </Border>
 
@@ -188,7 +201,7 @@
                                 FontSize="14"
                                 FontWeight="SemiBold"
                                 Foreground="{DynamicResource PrimaryTextBrush}"
-                                Text="Графік цін" />
+                                Text="{DynamicResource CoinDetails.PriceChart}" />
 
                             <ItemsControl HorizontalAlignment="Right" ItemsSource="{Binding Periods}">
                                 <ItemsControl.ItemsPanel>
@@ -243,7 +256,7 @@
                             DockPanel.Dock="Top"
                             FontSize="13"
                             Foreground="{DynamicResource SecondaryTextBrush}"
-                            Text="Завантаження..."
+                            Text="{DynamicResource CoinDetails.Loading}"
                             Visibility="{Binding IsLoadingChart, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <Grid>
@@ -262,14 +275,14 @@
                                     FontSize="13"
                                     FontWeight="SemiBold"
                                     Foreground="{DynamicResource SecondaryTextBrush}"
-                                    Text="Немає даних для відображення" />
+                                    Text="{DynamicResource CoinDetails.NoData}" />
                                 <TextBlock
                                     Margin="0,4,0,0"
                                     HorizontalAlignment="Center"
                                     FontSize="11"
                                     Foreground="{DynamicResource SecondaryTextBrush}"
                                     Opacity="0.7"
-                                    Text="Оберіть інший період або спробуйте пізніше" />
+                                    Text="{DynamicResource CoinDetails.NoDataMessage}" />
                             </StackPanel>
 
                             <!--  Chart  -->
@@ -298,7 +311,7 @@
                             FontSize="14"
                             FontWeight="SemiBold"
                             Foreground="{DynamicResource PrimaryTextBrush}"
-                            Text="Біржі" />
+                            Text="{DynamicResource CoinDetails.Exchanges}" />
 
                         <Grid Margin="0,0,0,6" DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
@@ -312,21 +325,21 @@
                                 FontSize="11"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="НАЗВА" />
+                                Text="{DynamicResource CoinDetails.Name}" />
                             <TextBlock
                                 Grid.Column="1"
                                 HorizontalAlignment="Right"
                                 FontSize="11"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="ЦІНА" />
+                                Text="{DynamicResource CoinDetails.Price}" />
                             <TextBlock
                                 Grid.Column="2"
                                 HorizontalAlignment="Right"
                                 FontSize="11"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="ОБ'ЄМ" />
+                                Text="{DynamicResource CoinDetails.Volume}" />
                         </Grid>
 
                         <Border
@@ -351,7 +364,7 @@
                                     FontSize="12"
                                     FontWeight="SemiBold"
                                     Foreground="{DynamicResource SecondaryTextBrush}"
-                                    Text="Немає даних про біржі" />
+                                    Text="{DynamicResource CoinDetails.NoData}" />
                             </StackPanel>
 
                             <!--  Markets list  -->
@@ -412,7 +425,7 @@
                                                     Click="OpenTradeUrl_Click"
                                                     Cursor="Hand"
                                                     Tag="{Binding TradeUrl}"
-                                                    ToolTip="Відкрити на біржі"
+                                                    ToolTip="{DynamicResource CoinDetails.OpenInExchange}"
                                                     Visibility="{Binding TradeUrl, Converter={StaticResource NullToCollapsedConverter}}">
                                                     <TextBlock
                                                         FontSize="13"

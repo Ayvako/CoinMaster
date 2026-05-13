@@ -25,7 +25,7 @@
                 FontSize="22"
                 FontWeight="Bold"
                 Foreground="{DynamicResource PrimaryTextBrush}"
-                Text="Ринок криптовалют" />
+                Text="{DynamicResource MainView.Title}" />
         </Grid>
 
         <!--  SEARCH  -->
@@ -56,7 +56,7 @@
                 Background="{DynamicResource AccentBrush}"
                 BorderThickness="0"
                 Command="{Binding SearchCommand}"
-                Content="Знайти"
+                Content="{DynamicResource MainView.Search}"
                 Cursor="Hand"
                 FontSize="13"
                 FontWeight="SemiBold"
@@ -144,20 +144,28 @@
                     <DataGridTextColumn
                         Width="Auto"
                         MinWidth="45"
-                        Binding="{Binding Rank}"
-                        Header="#" />
+                        Binding="{Binding Rank}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="#" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn
-                        Width="*"
-                        Binding="{Binding Name}"
-                        Header="НАЗВА" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Name}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{DynamicResource MainView.Name}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTextColumn
-                        Width="80"
-                        Binding="{Binding Symbol}"
-                        Header="КОД" />
+                    <DataGridTextColumn Width="80" Binding="{Binding Symbol}">
+                        <DataGridTextColumn.Header>
+                            <TextBlock Text="{DynamicResource MainView.Code}" />
+                        </DataGridTextColumn.Header>
+                    </DataGridTextColumn>
 
-                    <DataGridTemplateColumn Width="140" Header="ЦІНА (USD)">
+                    <DataGridTemplateColumn Width="140">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource MainView.Price}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock
@@ -170,7 +178,10 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn Width="110" Header="ЗМІНА (24Г)">
+                    <DataGridTemplateColumn Width="110">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{DynamicResource MainView.Change}" />
+                        </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock

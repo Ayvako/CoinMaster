@@ -8,6 +8,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/ScrollBar.xaml" />
+                <ResourceDictionary Source="Resources/Styles/ComboBox.xaml" />
+                <ResourceDictionary Source="Resources/Localization/Strings.ua.xaml" />
 
                 <ResourceDictionary Source="Themes/DarkTheme.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -21,6 +23,7 @@
             <converters:EqualityConverter x:Key="EqualityConverter" />
             <converters:CompactConverter x:Key="CompactConverter" />
             <converters:EmptyToVisibleConverter x:Key="EmptyToVisibleConverter" />
+
         </ResourceDictionary>
     </Application.Resources>
 

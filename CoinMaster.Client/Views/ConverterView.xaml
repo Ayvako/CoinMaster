@@ -24,12 +24,12 @@
                     FontSize="26"
                     FontWeight="Bold"
                     Foreground="{DynamicResource PrimaryTextBrush}"
-                    Text="Конвертер" />
+                    Text="{DynamicResource ConverterView.Converter}" />
                 <TextBlock
                     Margin="0,0,0,10"
                     FontSize="13"
                     Foreground="{DynamicResource SecondaryTextBrush}"
-                    Text="Розрахуйте вартість однієї криптовалюти в іншій" />
+                    Text="{DynamicResource ConverterView.Description}" />
 
                 <!--  FROM card  -->
                 <Border
@@ -49,7 +49,7 @@
                                 FontSize="11"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="ВІДПРАВЛЯЮ" />
+                                Text="{DynamicResource ConverterView.From}" />
                             <TextBox
                                 Padding="0"
                                 Background="Transparent"
@@ -127,7 +127,7 @@
                                 FontSize="11"
                                 FontWeight="Bold"
                                 Foreground="{DynamicResource SecondaryTextBrush}"
-                                Text="ОТРИМУЮ" />
+                                Text="{DynamicResource ConverterView.To}" />
                             <TextBlock
                                 VerticalAlignment="Center"
                                 FontFamily="Consolas"
@@ -193,10 +193,10 @@
                             Foreground="White">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
-                                    <Setter Property="Text" Value="Конвертувати" />
+                                    <Setter Property="Text" Value="{DynamicResource ConverterView.Convert}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsLoading}" Value="True">
-                                            <Setter Property="Text" Value="Завантаження..." />
+                                            <Setter Property="Text" Value="{DynamicResource ConverterView.Loading}" />
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>

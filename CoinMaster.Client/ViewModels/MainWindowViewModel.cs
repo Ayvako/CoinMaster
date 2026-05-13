@@ -6,11 +6,15 @@ namespace CoinMaster.Client.ViewModels;
 
 public partial class MainWindowViewModel : ObservableObject
 {
+    public List<string> AvailableLanguages { get; } = new() { "ua", "en" };
+
     [ObservableProperty]
     private object currentViewModel;
 
     [ObservableProperty]
     private bool canNavigateBack;
+
+    private string selectedLanguage = "ua";
 
     private readonly INavigationService navigation;
 
@@ -38,6 +42,21 @@ public partial class MainWindowViewModel : ObservableObject
             CanNavigateBack = value;
             GoBackCommand.NotifyCanExecuteChanged();
         };
+    }
+
+    public string SelectedLanguage
+    {
+        get => selectedLanguage;
+
+        set
+        {
+            if (selectedLanguage != value)
+            {
+                selectedLanguage = value;
+                OnPropertyChanged(nameof(SelectedLanguage));
+                LocalizationService.SetLanguage(value);
+            }
+        }
     }
 
     [RelayCommand]

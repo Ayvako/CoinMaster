@@ -1,0 +1,46 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <s:String x:Key="Period.1D">1Д</s:String>
+    <s:String x:Key="Period.7D">7Д</s:String>
+    <s:String x:Key="Period.14D">14Д</s:String>
+    <s:String x:Key="Period.1M">1М</s:String>
+    <s:String x:Key="Period.3M">3М</s:String>
+    <s:String x:Key="Period.6M">6М</s:String>
+    <s:String x:Key="Period.1Y">1Г</s:String>
+
+    <s:String x:Key="MainWindow.Back">← Назад</s:String>
+    <s:String x:Key="MainWindow.Converter">⇄ Конвертер</s:String>
+
+    <s:String x:Key="CoinDetails.CurrentPrice">Поточна ціна</s:String>
+    <s:String x:Key="CoinDetails.MarketCap">Капіталізація (Market Cap)</s:String>
+    <s:String x:Key="CoinDetails.Volume24H">Об'єм (24 год)</s:String>
+    <s:String x:Key="CoinDetails.MaxSupply">Макс. пропозиція</s:String>
+    <s:String x:Key="CoinDetails.PriceChart">Графік цін</s:String>
+    <s:String x:Key="CoinDetails.Loading">Завантаження...</s:String>
+    <s:String x:Key="CoinDetails.NoData">Немає даних для відображення</s:String>
+    <s:String x:Key="CoinDetails.NoDataMessage">Оберіть інший період або спробуйте пізніше</s:String>
+    <s:String x:Key="CoinDetails.Exchanges">Біржі</s:String>
+    <s:String x:Key="CoinDetails.Name">НАЗВА</s:String>
+    <s:String x:Key="CoinDetails.Price">ЦІНА</s:String>
+    <s:String x:Key="CoinDetails.Volume">ОБ'ЄМ</s:String>
+    <s:String x:Key="CoinDetails.OpenInExchange">Відкрити на біржі</s:String>
+    <s:String x:Key="CoinDetails.Unlimited">Безліміт</s:String>
+
+    <s:String x:Key="ConverterView.Converter">Конвертер</s:String>
+    <s:String x:Key="ConverterView.Description">Розрахуйте вартість однієї криптовалюти в іншій</s:String>
+    <s:String x:Key="ConverterView.From">ВІДПРАВЛЯЮ</s:String>
+    <s:String x:Key="ConverterView.To">ОТРИМУЮ</s:String>
+    <s:String x:Key="ConverterView.Convert">Конвертувати</s:String>
+    <s:String x:Key="ConverterView.Loading">Завантаження...</s:String>
+
+    <s:String x:Key="MainView.Title">Ринок криптовалют</s:String>
+    <s:String x:Key="MainView.Search">Знайти</s:String>
+    <s:String x:Key="MainView.Name">НАЗВА</s:String>
+    <s:String x:Key="MainView.Code">КОД</s:String>
+    <s:String x:Key="MainView.Price">ЦІНА (USD)</s:String>
+    <s:String x:Key="MainView.Change">ЗМІНА (24Г)</s:String>
+
+</ResourceDictionary>

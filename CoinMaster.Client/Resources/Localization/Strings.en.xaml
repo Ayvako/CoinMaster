@@ -1,0 +1,46 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <s:String x:Key="Period.1D">1D</s:String>
+    <s:String x:Key="Period.7D">7D</s:String>
+    <s:String x:Key="Period.14D">14D</s:String>
+    <s:String x:Key="Period.1M">1M</s:String>
+    <s:String x:Key="Period.3M">3M</s:String>
+    <s:String x:Key="Period.6M">6M</s:String>
+    <s:String x:Key="Period.1Y">1Y</s:String>
+
+    <s:String x:Key="MainWindow.Back">← Back</s:String>
+    <s:String x:Key="MainWindow.Converter">⇄ Converter</s:String>
+
+    <s:String x:Key="CoinDetails.CurrentPrice">Current Price</s:String>
+    <s:String x:Key="CoinDetails.MarketCap">Market Cap</s:String>
+    <s:String x:Key="CoinDetails.Volume24H">Volume (24h)</s:String>
+    <s:String x:Key="CoinDetails.MaxSupply">Max Supply</s:String>
+    <s:String x:Key="CoinDetails.PriceChart">Price Chart</s:String>
+    <s:String x:Key="CoinDetails.Loading">Loading...</s:String>
+    <s:String x:Key="CoinDetails.NoData">No data to display</s:String>
+    <s:String x:Key="CoinDetails.NoDataMessage">Try a different period or check back later</s:String>
+    <s:String x:Key="CoinDetails.Exchanges">Exchanges</s:String>
+    <s:String x:Key="CoinDetails.Name">NAME</s:String>
+    <s:String x:Key="CoinDetails.Price">PRICE</s:String>
+    <s:String x:Key="CoinDetails.Volume">VOLUME</s:String>
+    <s:String x:Key="CoinDetails.OpenInExchange">Open on exchange</s:String>
+    <s:String x:Key="CoinDetails.Unlimited">Unlimited</s:String>
+
+    <s:String x:Key="ConverterView.Converter">Converter</s:String>
+    <s:String x:Key="ConverterView.Description">Calculate the value of one cryptocurrency in another</s:String>
+    <s:String x:Key="ConverterView.From">I SEND</s:String>
+    <s:String x:Key="ConverterView.To">I RECEIVE</s:String>
+    <s:String x:Key="ConverterView.Convert">Convert</s:String>
+    <s:String x:Key="ConverterView.Loading">Loading...</s:String>
+
+    <s:String x:Key="MainView.Title">Crypto Market</s:String>
+    <s:String x:Key="MainView.Search">Search</s:String>
+    <s:String x:Key="MainView.Name">NAME</s:String>
+    <s:String x:Key="MainView.Code">SYMBOL</s:String>
+    <s:String x:Key="MainView.Price">PRICE (USD)</s:String>
+    <s:String x:Key="MainView.Change">CHANGE (24H)</s:String>
+
+</ResourceDictionary>

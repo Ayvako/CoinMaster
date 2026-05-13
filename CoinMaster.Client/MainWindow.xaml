@@ -75,13 +75,14 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Button
                 Grid.Column="0"
                 VerticalAlignment="Center"
                 Command="{Binding GoBackCommand}"
-                Content="← Назад"
+                Content="{DynamicResource MainWindow.Back}"
                 Style="{StaticResource NavigationBackButtonStyle}"
                 Visibility="{Binding CanNavigateBack, Converter={StaticResource BoolToVisibilityConverter}}" />
 
@@ -90,11 +91,30 @@
                 Margin="0,0,8,0"
                 VerticalAlignment="Center"
                 Command="{Binding NavigateToConverterCommand}"
-                Content="⇄ Конвертер"
+                Content="{DynamicResource MainWindow.Converter}"
                 Style="{StaticResource NavigationBackButtonStyle}"
                 Visibility="{Binding IsOnConverter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}" />
-            <Button
+            <ComboBox
                 Grid.Column="3"
+                Width="70"
+                Height="36"
+                Margin="0,0,8,0"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding AvailableLanguages}"
+                SelectedItem="{Binding SelectedLanguage}"
+                Style="{StaticResource SimpleLangBox}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            FontWeight="SemiBold"
+                            Text="{Binding}"
+                            Typography.Capitals="AllSmallCaps" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button
+                Grid.Column="4"
                 Width="36"
                 Height="36"
                 VerticalAlignment="Center"

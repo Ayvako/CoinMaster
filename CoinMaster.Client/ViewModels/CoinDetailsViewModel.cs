@@ -1,4 +1,5 @@
-﻿using CoinMaster.Core.Entities;
+﻿using CoinMaster.Client.Services;
+using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -18,6 +19,8 @@ public partial class CoinDetailsViewModel : ObservableObject
     {
         this.coinService = coinService;
         this.chartService = chartService;
+        selectedPeriod = Periods[1];
+
     }
 
     [ObservableProperty]
@@ -29,19 +32,19 @@ public partial class CoinDetailsViewModel : ObservableObject
     [ObservableProperty]
     private bool isLoadingChart;
 
+    [ObservableProperty]
+    private PeriodOption selectedPeriod;
+
     public List<PeriodOption> Periods { get; } =
     [
-        new("1Д",  "1"),
-        new("7Д",  "7"),
-        new("14Д", "14"),
-        new("1М", "30"),
-        new("3М", "90"),
-        new("6М", "180"),
-        new("1Г",  "365"),
+        new("Period.1D",  "1"),
+        new("Period.7D",  "7"),
+        new("Period.14D", "14"),
+        new("Period.1M",  "30"),
+        new("Period.3M",  "90"),
+        new("Period.6M",  "180"),
+        new("Period.1Y",  "365"),
     ];
-
-    [ObservableProperty]
-    private PeriodOption selectedPeriod = new("7Д", "7");
 
     [RelayCommand]
     private async Task SelectPeriod(PeriodOption period)
@@ -72,7 +75,7 @@ public partial class CoinDetailsViewModel : ObservableObject
         IsLoadingChart = true;
         try
         {
-            Candles = await chartService.GetOhlcAsync(coinId, SelectedPeriod.Days);
+            Candles = await chartService.GetOhlcAsync(coinId, SelectedPeriod.Value);
         }
         finally
         {
