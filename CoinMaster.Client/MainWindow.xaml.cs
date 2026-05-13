@@ -14,11 +14,11 @@ public partial class MainWindow : Window
         Loaded += MainWindow_Loaded;
     }
 
-    private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+    private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
     {
         if (this.DataContext is MainViewModel viewModel)
         {
-            _ = viewModel.LoadTopCoinsAsync();
+            await viewModel.LoadTopCoinsAsync();
         }
     }
 }

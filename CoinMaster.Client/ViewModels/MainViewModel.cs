@@ -45,7 +45,7 @@ public partial class MainViewModel : ObservableObject
         await LoadTopCoinsAsync();
     }
 
-    public async Task SelectCoin(Coin coin)
+    public async Task SelectCoinAsync(Coin coin)
     {
         await navigation.NavigateToAsync<CoinDetailsViewModel>(vm => vm.Load(coin));
     }
