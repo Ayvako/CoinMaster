@@ -1,17 +1,17 @@
-﻿using CoinMaster.Client.ViewModels;
-using System.Windows;
+﻿namespace CoinMaster.Client;
 
-namespace CoinMaster.Client;
+using System.Windows;
+using CoinMaster.Client.ViewModels;
 
 /// <summary>
-/// Interaction logic for MainWindow.xaml
+/// Interaction logic for MainWindow.xaml.
 /// </summary>
 public partial class MainWindow : Window
 {
     public MainWindow()
     {
-        InitializeComponent();
-        Loaded += MainWindow_Loaded;
+        this.InitializeComponent();
+        this.Loaded += this.MainWindow_Loaded;
     }
 
     private async void MainWindow_Loaded(object sender, RoutedEventArgs e)

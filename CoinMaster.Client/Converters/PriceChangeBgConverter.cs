@@ -1,11 +1,11 @@
-﻿using System.Globalization;
+﻿namespace CoinMaster.Client.Converters;
+
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace CoinMaster.Client.Converters;
-
-class PriceChangeBgConverter : IValueConverter
+public class PriceChangeBgConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -22,9 +22,8 @@ class PriceChangeBgConverter : IValueConverter
                ?? Brushes.Transparent;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
-
 }

@@ -1,52 +1,62 @@
-﻿using CoinMaster.Client.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+﻿namespace CoinMaster.Client.Services;
 
-namespace CoinMaster.Client.Services;
+using CoinMaster.Client.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 public class NavigationService(IServiceProvider sp)
     : INavigationService
 {
     private readonly Stack<object> history = new();
 
-    private MainWindowViewModel MainVM => sp.GetRequiredService<MainWindowViewModel>();
-
-    public bool CanGoBack => history.Count > 0;
-
     public event EventHandler<bool>? CanGoBackChanged;
 
-    public void NavigateTo<TViewModel>() where TViewModel : class
-        => SetViewModel(sp.GetRequiredService<TViewModel>());
+    public bool CanGoBack => this.history.Count > 0;
 
-    public void NavigateTo<TViewModel>(Action<TViewModel> configure) where TViewModel : class
+    private MainWindowViewModel MainVM => sp.GetRequiredService<MainWindowViewModel>();
+
+    public void NavigateTo<TViewModel>()
+        where TViewModel : class
+        => this.SetViewModel(sp.GetRequiredService<TViewModel>());
+
+    public void NavigateTo<TViewModel>(Action<TViewModel> configure)
+        where TViewModel : class
     {
         var vm = sp.GetRequiredService<TViewModel>();
         configure(vm);
-        SetViewModel(vm);
+        this.SetViewModel(vm);
     }
 
     public void GoBack()
     {
-        if (history.TryPop(out var prev))
-            MainVM.CurrentViewModel = prev;
+        if (this.history.TryPop(out var prev))
+        {
+            this.MainVM.CurrentViewModel = prev;
+        }
 
-        CanGoBackChanged?.Invoke(this, CanGoBack);
+        this.CanGoBackChanged?.Invoke(this, this.CanGoBack);
+    }
+
+    public async Task NavigateToAsync<TViewModel>(Func<TViewModel, Task> configure)
+    where TViewModel : class
+    {
+        var vm = sp.GetRequiredService<TViewModel>();
+        this.SetViewModel(vm);
+        await configure(vm);
     }
 
     private void SetViewModel(object vm)
     {
-        if (MainVM.CurrentViewModel == vm) return;
+        if (this.MainVM.CurrentViewModel == vm)
+        {
+            return;
+        }
 
-        if (MainVM.CurrentViewModel is not null)
-            history.Push(MainVM.CurrentViewModel);
+        if (this.MainVM.CurrentViewModel is not null)
+        {
+            this.history.Push(this.MainVM.CurrentViewModel);
+        }
 
-        MainVM.CurrentViewModel = vm;
-        CanGoBackChanged?.Invoke(this, CanGoBack);
-    }
-
-    public async Task NavigateToAsync<TViewModel>(Func<TViewModel, Task> configure) where TViewModel : class
-    {
-        var vm = sp.GetRequiredService<TViewModel>();
-        SetViewModel(vm);
-        await configure(vm);
+        this.MainVM.CurrentViewModel = vm;
+        this.CanGoBackChanged?.Invoke(this, this.CanGoBack);
     }
 }

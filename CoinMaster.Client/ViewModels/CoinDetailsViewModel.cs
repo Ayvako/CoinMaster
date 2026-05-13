@@ -1,27 +1,17 @@
-﻿using CoinMaster.Client.Services;
+﻿namespace CoinMaster.Client.ViewModels;
+
 using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CoinMaster.Client.ViewModels;
-
 public partial class CoinDetailsViewModel : ObservableObject
 {
-
     private readonly ICoinService coinService;
 
     private readonly IChartService chartService;
 
     private string coinId = string.Empty;
-
-    public CoinDetailsViewModel(ICoinService coinService, IChartService chartService)
-    {
-        this.coinService = coinService;
-        this.chartService = chartService;
-        selectedPeriod = Periods[1];
-
-    }
 
     [ObservableProperty]
     private Coin? coin;
@@ -35,6 +25,13 @@ public partial class CoinDetailsViewModel : ObservableObject
     [ObservableProperty]
     private PeriodOption selectedPeriod;
 
+    public CoinDetailsViewModel(ICoinService coinService, IChartService chartService)
+    {
+        this.coinService = coinService;
+        this.chartService = chartService;
+        this.selectedPeriod = this.Periods[1];
+    }
+
     public List<PeriodOption> Periods { get; } =
     [
         new("Period.1D",  "1"),
@@ -46,40 +43,46 @@ public partial class CoinDetailsViewModel : ObservableObject
         new("Period.1Y",  "365"),
     ];
 
+    public async Task Load(Coin selected)
+    {
+        this.coinId = selected.Id;
+
+        this.Coin = selected;
+
+        this.Coin = await this.coinService.GetDetailsAsync(selected.Id);
+
+        if (this.Coin.OhlcData is { Count: > 0 })
+        {
+            this.Candles = this.Coin.OhlcData;
+        }
+        else
+        {
+            await this.LoadCandlesAsync();
+        }
+    }
+
     [RelayCommand]
     private async Task SelectPeriod(PeriodOption period)
     {
-        SelectedPeriod = period;
-        await LoadCandlesAsync();
-    }
-
-    public async Task Load(Coin selected)
-    {
-        coinId = selected.Id;
-
-        Coin = selected;
-
-        Coin = await coinService.GetDetailsAsync(selected.Id);
-
-        if (Coin.OhlcData is { Count: > 0 })
-            Candles = Coin.OhlcData;
-        else
-            await LoadCandlesAsync();
-
+        this.SelectedPeriod = period;
+        await this.LoadCandlesAsync();
     }
 
     private async Task LoadCandlesAsync()
     {
-        if (string.IsNullOrEmpty(coinId)) return;
+        if (string.IsNullOrEmpty(this.coinId))
+        {
+            return;
+        }
 
-        IsLoadingChart = true;
+        this.IsLoadingChart = true;
         try
         {
-            Candles = await chartService.GetOhlcAsync(coinId, SelectedPeriod.Value);
+            this.Candles = await this.chartService.GetOhlcAsync(this.coinId, this.SelectedPeriod.Value);
         }
         finally
         {
-            IsLoadingChart = false;
+            this.IsLoadingChart = false;
         }
     }
 }

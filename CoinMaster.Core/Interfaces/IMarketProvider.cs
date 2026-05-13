@@ -1,6 +1,6 @@
-﻿using CoinMaster.Core.Entities;
+﻿namespace CoinMaster.Core.Interfaces;
 
-namespace CoinMaster.Core.Interfaces;
+using CoinMaster.Core.Entities;
 
 public interface IMarketProvider
 {

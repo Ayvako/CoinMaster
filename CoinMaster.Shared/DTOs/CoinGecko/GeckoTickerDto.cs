@@ -1,6 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace CoinMaster.Shared.DTOs.CoinGecko;
 
-namespace CoinMaster.Shared.DTOs.CoinGecko;
+using System.Text.Json.Serialization;
 
 public class GeckoTickerDto
 {

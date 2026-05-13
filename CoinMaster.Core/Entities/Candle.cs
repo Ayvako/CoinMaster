@@ -12,5 +12,5 @@ public class Candle
 
     public decimal Close { get; set; }
 
-    public bool IsBullish => Close >= Open;
+    public bool IsBullish => this.Close >= this.Open;
 }

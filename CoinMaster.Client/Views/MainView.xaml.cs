@@ -1,20 +1,20 @@
-﻿using CoinMaster.Client.ViewModels;
-using CoinMaster.Core.Entities;
+﻿namespace CoinMaster.Client.Views;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-
-namespace CoinMaster.Client.Views;
+using CoinMaster.Client.ViewModels;
+using CoinMaster.Core.Entities;
 
 /// <summary>
-/// Логика взаимодействия для MainView.xaml
+/// Логика взаимодействия для MainView.xaml.
 /// </summary>
 public partial class MainView : UserControl
 {
     public MainView()
     {
-        InitializeComponent();
-        Loaded += MainView_Loaded;
+        this.InitializeComponent();
+        this.Loaded += this.MainView_Loaded;
     }
 
     private async void MainView_Loaded(object sender, RoutedEventArgs e)

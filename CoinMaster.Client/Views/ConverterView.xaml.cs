@@ -1,18 +1,18 @@
-﻿using CoinMaster.Client.ViewModels;
+﻿namespace CoinMaster.Client.Views;
+
 using System.Windows;
 using System.Windows.Controls;
-
-namespace CoinMaster.Client.Views;
+using CoinMaster.Client.ViewModels;
 
 /// <summary>
-/// Логика взаимодействия для ConverterView.xaml
+/// Логика взаимодействия для ConverterView.xaml.
 /// </summary>
 public partial class ConverterView : UserControl
 {
     public ConverterView()
     {
-        InitializeComponent();
-        Loaded += ConverterView_Loaded;
+        this.InitializeComponent();
+        this.Loaded += this.ConverterView_Loaded;
     }
 
     private async void ConverterView_Loaded(object sender, RoutedEventArgs e)

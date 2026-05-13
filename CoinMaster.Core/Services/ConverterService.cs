@@ -1,6 +1,6 @@
-﻿using CoinMaster.Core.Interfaces;
+﻿namespace CoinMaster.Core.Services;
 
-namespace CoinMaster.Core.Services;
+using CoinMaster.Core.Interfaces;
 
 public class ConverterService : IConverterService
 {
@@ -13,6 +13,6 @@ public class ConverterService : IConverterService
 
     public async Task<decimal> ConvertAsync(string fromCoinId, string toCoinId, decimal amount)
     {
-        return await converterProvider.ConvertAsync(fromCoinId, toCoinId, amount);
+        return await this.converterProvider.ConvertAsync(fromCoinId, toCoinId, amount);
     }
 }

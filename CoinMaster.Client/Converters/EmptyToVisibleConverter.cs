@@ -1,8 +1,8 @@
-﻿using System.Collections;
+﻿namespace CoinMaster.Client.Converters;
+
+using System.Collections;
 using System.Windows;
 using System.Windows.Data;
-
-namespace CoinMaster.Client.Converters;
 
 [ValueConversion(typeof(IEnumerable), typeof(Visibility))]
 public class EmptyToVisibleConverter : IValueConverter

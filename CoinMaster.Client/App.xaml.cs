@@ -1,4 +1,7 @@
-﻿using CoinMaster.Client.Services;
+﻿namespace CoinMaster.Client;
+
+using System.Windows;
+using CoinMaster.Client.Services;
 using CoinMaster.Client.ViewModels;
 using CoinMaster.Core.Interfaces;
 using CoinMaster.Core.Services;
@@ -6,12 +9,9 @@ using CoinMaster.Infrastructure.ApiClients.CoinCap;
 using CoinMaster.Infrastructure.ApiClients.CoinGecko;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Windows;
-
-namespace CoinMaster.Client;
 
 /// <summary>
-/// Interaction logic for App.xaml
+/// Interaction logic for App.xaml.
 /// </summary>
 public partial class App : Application
 {
@@ -26,6 +26,10 @@ public partial class App : Application
         Services = serviceCollection.BuildServiceProvider();
     }
 
+    public static IServiceProvider Services { get; private set; } = null!;
+
+    public static IConfiguration Configuration { get; private set; } = null!;
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
@@ -37,16 +41,12 @@ public partial class App : Application
         mainWindow.Show();
     }
 
-    public static IServiceProvider Services { get; private set; } = null!;
-
-    public static IConfiguration Configuration { get; private set; } = null!;
-
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(Configuration);
         services.AddHttpClient<CoinCapClient>(client =>
         {
-            client.BaseAddress = new Uri(Configuration["CoinCap:BaseUrl"]);
+            client.BaseAddress = new Uri(Configuration["CoinCap:BaseUrl"]!);
             var apiKey = Configuration["CoinCap:ApiKey"];
             if (!string.IsNullOrEmpty(apiKey))
             {
@@ -56,7 +56,7 @@ public partial class App : Application
 
         services.AddHttpClient<CoinGeckoClient>(client =>
         {
-            client.BaseAddress = new Uri(Configuration["CoinGecko:BaseUrl"]);
+            client.BaseAddress = new Uri(Configuration["CoinGecko:BaseUrl"]!);
             client.DefaultRequestHeaders.Add("User-Agent", "CoinMasterApp/1.0");
 
             var apiKey = Configuration["CoinGecko:ApiKey"];

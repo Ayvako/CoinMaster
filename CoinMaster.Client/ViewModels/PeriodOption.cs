@@ -1,28 +1,48 @@
-﻿using CoinMaster.Client.Services;
-using System.ComponentModel;
+﻿namespace CoinMaster.Client.ViewModels;
 
-namespace CoinMaster.Client.ViewModels;
+using System.ComponentModel;
+using CoinMaster.Client.Services;
 
 public class PeriodOption : INotifyPropertyChanged, IDisposable
 {
-    private readonly string _key;
+    private readonly string key;
 
-    public string Value { get; }
-
-    public string Label => LocalizationService.Get(_key);
+    private bool disposed = false;
 
     public PeriodOption(string key, string value)
     {
-        _key = key;
-        Value = value;
-        LocalizationService.LanguageChanged += OnLanguageChanged;
+        this.key = key;
+        this.Value = value;
+        LocalizationService.LanguageChanged += this.OnLanguageChanged;
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    public string Value { get; }
+
+    public string Label => LocalizationService.Get(this.key);
+
+    public void Dispose()
+    {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (this.disposed)
+        {
+            return;
+        }
+
+        if (disposing)
+        {
+            LocalizationService.LanguageChanged -= this.OnLanguageChanged;
+        }
+
+        this.disposed = true;
     }
 
     private void OnLanguageChanged() =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Label)));
-
-    public void Dispose() =>
-        LocalizationService.LanguageChanged -= OnLanguageChanged;
-
-    public event PropertyChangedEventHandler? PropertyChanged;
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Label)));
 }

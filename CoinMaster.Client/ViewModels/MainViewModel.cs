@@ -1,12 +1,12 @@
-﻿using CoinMaster.Client.Services;
+﻿namespace CoinMaster.Client.ViewModels;
+
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using CoinMaster.Client.Services;
 using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-
-namespace CoinMaster.Client.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
@@ -30,8 +30,8 @@ public partial class MainViewModel : ObservableObject
     {
         try
         {
-            var coins = await coinService.GetTopCoinsAsync(10);
-            TopCoins = new ObservableCollection<Coin>(coins);
+            var coins = await this.coinService.GetTopCoinsAsync(10);
+            this.TopCoins = new ObservableCollection<Coin>(coins);
         }
         catch (Exception ex)
         {
@@ -41,27 +41,34 @@ public partial class MainViewModel : ObservableObject
 
     public async Task InitializeAsync()
     {
-        if (TopCoins.Any()) return;
-        await LoadTopCoinsAsync();
+        if (this.TopCoins.Any())
+        {
+            return;
+        }
+
+        await this.LoadTopCoinsAsync();
     }
 
     public async Task SelectCoinAsync(Coin coin)
     {
-        await navigation.NavigateToAsync<CoinDetailsViewModel>(vm => vm.Load(coin));
+        await this.navigation.NavigateToAsync<CoinDetailsViewModel>(vm => vm.Load(coin));
     }
 
     [RelayCommand]
     private async Task SearchAsync()
     {
-        if (string.IsNullOrWhiteSpace(SearchQuery))
+        if (string.IsNullOrWhiteSpace(this.SearchQuery))
         {
-            await LoadTopCoinsAsync();
+            await this.LoadTopCoinsAsync();
             return;
         }
 
-        var result = await coinService.SearchCoinsAsync(SearchQuery);
-        if (result == null) return;
+        var result = await this.coinService.SearchCoinsAsync(this.SearchQuery);
+        if (result == null)
+        {
+            return;
+        }
 
-        TopCoins = new ObservableCollection<Coin>(result);
+        this.TopCoins = new ObservableCollection<Coin>(result);
     }
 }

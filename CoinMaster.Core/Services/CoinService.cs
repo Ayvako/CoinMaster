@@ -1,7 +1,7 @@
-﻿using CoinMaster.Core.Entities;
-using CoinMaster.Core.Interfaces;
+﻿namespace CoinMaster.Core.Services;
 
-namespace CoinMaster.Core.Services;
+using CoinMaster.Core.Entities;
+using CoinMaster.Core.Interfaces;
 
 public class CoinService : ICoinService
 {
@@ -20,9 +20,9 @@ public class CoinService : ICoinService
 
     public async Task<Coin> GetDetailsAsync(string id, string days = "7")
     {
-        var coinTask = coinProvider.GetDetailsAsync(id);
-        var marketsTask = marketService.GetMarketsAsync(id);
-        var ohlcTask = chartService.GetOhlcAsync(id, days);
+        var coinTask = this.coinProvider.GetDetailsAsync(id);
+        var marketsTask = this.marketService.GetMarketsAsync(id);
+        var ohlcTask = this.chartService.GetOhlcAsync(id, days);
 
         await Task.WhenAll(coinTask, marketsTask, ohlcTask);
         var coin = coinTask.Result;
@@ -33,9 +33,8 @@ public class CoinService : ICoinService
     }
 
     public Task<List<Coin>> GetTopCoinsAsync(int limit = 10)
-        => coinProvider.GetTopCoinsAsync(limit);
+        => this.coinProvider.GetTopCoinsAsync(limit);
 
     public Task<List<Coin>> SearchCoinsAsync(string searchQuery)
-        => coinProvider.SearchCoinsAsync(searchQuery);
-
+        => this.coinProvider.SearchCoinsAsync(searchQuery);
 }

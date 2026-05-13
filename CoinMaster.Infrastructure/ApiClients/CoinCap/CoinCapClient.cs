@@ -1,27 +1,29 @@
-﻿using CoinMaster.Core.Entities;
+﻿namespace CoinMaster.Infrastructure.ApiClients.CoinCap;
+
+using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
 using CoinMaster.Infrastructure.ApiClients.Base;
 using CoinMaster.Infrastructure.Mapping;
 using CoinMaster.Shared.DTOs.CoinCap;
 
-namespace CoinMaster.Infrastructure.ApiClients.CoinCap;
-
 public class CoinCapClient : BaseApiClient, ICoinProvider, IConverterProvider
 {
     public CoinCapClient(HttpClient httpClient)
-        : base(httpClient) { }
+        : base(httpClient)
+    {
+    }
 
     public async Task<decimal> ConvertAsync(string fromCoinId, string toCoinId, decimal amount)
     {
-        var fromCoin = await SearchCoinsAsync(fromCoinId);
-        var toCoin = await SearchCoinsAsync(toCoinId);
+        var fromCoin = await this.SearchCoinsAsync(fromCoinId);
+        var toCoin = await this.SearchCoinsAsync(toCoinId);
 
         return amount * (fromCoin.FirstOrDefault()?.PriceUsd ?? 0) / (toCoin.FirstOrDefault()?.PriceUsd ?? 1);
     }
 
     public async Task<Coin?> GetDetailsAsync(string id)
     {
-        var response = await GetAsync<CoinCapSingleResponse>($"assets/{id}");
+        var response = await this.GetAsync<CoinCapSingleResponse>($"assets/{id}");
 
         return response?.Data != null ? DtoMapper.ToCoin(response.Data) : null;
     }
@@ -30,9 +32,9 @@ public class CoinCapClient : BaseApiClient, ICoinProvider, IConverterProvider
     {
         var query = new Dictionary<string, string>
         {
-            ["limit"] = limit.ToString()
+            ["limit"] = limit.ToString(),
         };
-        var response = await GetAsync<CoinCapResponse>("assets", queryParams: query);
+        var response = await this.GetAsync<CoinCapResponse>("assets", queryParams: query);
 
         return response?.Data?.Select(DtoMapper.ToCoin).ToList() ?? [];
     }
@@ -41,9 +43,9 @@ public class CoinCapClient : BaseApiClient, ICoinProvider, IConverterProvider
     {
         var query = new Dictionary<string, string>
         {
-            ["search"] = queryText
+            ["search"] = queryText,
         };
-        var response = await GetAsync<CoinCapResponse>("assets", queryParams: query);
+        var response = await this.GetAsync<CoinCapResponse>("assets", queryParams: query);
 
         return response?.Data?.Select(DtoMapper.ToCoin).ToList() ?? [];
     }

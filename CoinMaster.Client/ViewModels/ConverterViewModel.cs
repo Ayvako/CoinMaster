@@ -1,11 +1,11 @@
-﻿using CoinMaster.Core.Entities;
+﻿namespace CoinMaster.Client.ViewModels;
+
+using System.Diagnostics;
+using System.Globalization;
+using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using System.Diagnostics;
-using System.Globalization;
-
-namespace CoinMaster.Client.ViewModels;
 
 public partial class ConverterViewModel(ICoinService coinService, IConverterService converterService)
     : ObservableObject
@@ -38,39 +38,47 @@ public partial class ConverterViewModel(ICoinService coinService, IConverterServ
 
     public async Task LoadAsync()
     {
-        AllCoins = await coinService.GetTopCoinsAsync(250);
-        FromCoin = AllCoins.FirstOrDefault(c => c.Symbol == "BTC") ?? AllCoins.FirstOrDefault();
-        ToCoin = AllCoins.FirstOrDefault(c => c.Symbol == "ETH") ?? AllCoins.Skip(1).FirstOrDefault();
+        this.AllCoins = await coinService.GetTopCoinsAsync(250);
+        this.FromCoin = this.AllCoins.FirstOrDefault(c => c.Symbol == "BTC") ?? this.AllCoins.FirstOrDefault();
+        this.ToCoin = this.AllCoins.FirstOrDefault(c => c.Symbol == "ETH") ?? this.AllCoins.Skip(1).FirstOrDefault();
     }
 
     [RelayCommand]
     private void Swap()
     {
-        (FromCoin, ToCoin) = (ToCoin, FromCoin);
-        if (HasResult && ResultAmount is not null) FromAmount = ResultAmount;
-        HasResult = false;
-        ResultAmount = null;
-        ExchangeRateHint = null;
+        (this.FromCoin, this.ToCoin) = (this.ToCoin, this.FromCoin);
+        if (this.HasResult && this.ResultAmount is not null)
+        {
+            this.FromAmount = this.ResultAmount;
+        }
+
+        this.HasResult = false;
+        this.ResultAmount = null;
+        this.ExchangeRateHint = null;
     }
 
     private bool CanConvert() =>
-        FromCoin is not null && ToCoin is not null &&
-        decimal.TryParse(FromAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out var v) && v > 0;
+        this.FromCoin is not null && this.ToCoin is not null &&
+        decimal.TryParse(this.FromAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out var v) && v > 0;
 
     [RelayCommand(CanExecute = nameof(CanConvert))]
     private async Task Convert()
     {
-        if (!decimal.TryParse(FromAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out var amount)) return;
+        if (!decimal.TryParse(this.FromAmount, NumberStyles.Any, CultureInfo.InvariantCulture, out var amount))
+        {
+            return;
+        }
 
-        IsLoading = true;
-        HasResult = false;
+        this.IsLoading = true;
+        this.HasResult = false;
         try
         {
-            var result = await converterService.ConvertAsync(FromCoin!.Id, ToCoin!.Id, amount);
-            ResultAmount = result >= 1 ? result.ToString("N4") : result.ToString("G8");
+            var result = await converterService.ConvertAsync(this.FromCoin!.Id, this.ToCoin!.Id, amount);
+            this.ResultAmount = result >= 1 ? result.ToString("N4") : result.ToString("G8");
 
-            var rate = FromCoin.PriceUsd / ToCoin.PriceUsd;
-            ExchangeRateHint = $"1 {FromCoin.Symbol} = {(rate >= 1 ? rate.ToString("N4") : rate.ToString("G6"))} {ToCoin.Symbol}  •  ${FromCoin.PriceUsd:N2}"; HasResult = true;
+            var rate = this.FromCoin.PriceUsd / this.ToCoin.PriceUsd;
+            this.ExchangeRateHint = $"1 {this.FromCoin.Symbol} = {(rate >= 1 ? rate.ToString("N4") : rate.ToString("G6"))} {this.ToCoin.Symbol}  •  ${this.FromCoin.PriceUsd:N2}";
+            this.HasResult = true;
         }
         catch (Exception ex)
         {
@@ -78,7 +86,7 @@ public partial class ConverterViewModel(ICoinService coinService, IConverterServ
         }
         finally
         {
-            IsLoading = false;
+            this.IsLoading = false;
         }
     }
 

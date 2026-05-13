@@ -1,21 +1,27 @@
-﻿using System.Net;
+﻿namespace CoinMaster.Infrastructure.ApiClients.Base;
+
+using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CoinMaster.Infrastructure.ApiClients.Base;
-
 public abstract class BaseApiClient : IApiClient
 {
-    private readonly HttpClient httpClient;
-
     private const int MaxAttempts = 3;
+
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        PropertyNameCaseInsensitive = true,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+    };
+
+    private readonly HttpClient httpClient;
 
     protected BaseApiClient(HttpClient httpClient)
     {
         this.httpClient = httpClient;
     }
 
-    public Task<T?> GetAsync<T>(string endpoint, CancellationToken ct = default) => GetAsync<T>(endpoint, null, ct);
+    public Task<T?> GetAsync<T>(string endpoint, CancellationToken ct = default) => this.GetAsync<T>(endpoint, null, ct);
 
     public async Task<T?> GetAsync<T>(string endpoint, Dictionary<string, string>? queryParams, CancellationToken ct = default)
     {
@@ -27,7 +33,7 @@ public abstract class BaseApiClient : IApiClient
             {
                 using var request = new HttpRequestMessage(HttpMethod.Get, url);
 
-                using var response = await httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
+                using var response = await this.httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, ct);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -37,7 +43,10 @@ public abstract class BaseApiClient : IApiClient
 
                 if (response.StatusCode == HttpStatusCode.TooManyRequests)
                 {
-                    if (attempt == MaxAttempts) throw new HttpRequestException($"Rate limit exceeded after {MaxAttempts} attempts: {url}");
+                    if (attempt == MaxAttempts)
+                    {
+                        throw new HttpRequestException($"Rate limit exceeded after {MaxAttempts} attempts: {url}");
+                    }
 
                     var delay = GetRetryAfterDelay(response, attempt);
                     await Task.Delay(delay, ct);
@@ -46,7 +55,10 @@ public abstract class BaseApiClient : IApiClient
 
                 if ((int)response.StatusCode >= 500)
                 {
-                    if (attempt == MaxAttempts) response.EnsureSuccessStatusCode();
+                    if (attempt == MaxAttempts)
+                    {
+                        response.EnsureSuccessStatusCode();
+                    }
 
                     await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct);
                     continue;
@@ -65,7 +77,6 @@ public abstract class BaseApiClient : IApiClient
 
                 response.EnsureSuccessStatusCode();
             }
-
             catch (HttpRequestException) when (attempt < MaxAttempts)
             {
                 await Task.Delay(TimeSpan.FromSeconds(Math.Pow(2, attempt)), ct);
@@ -104,10 +115,4 @@ public abstract class BaseApiClient : IApiClient
 
         return $"{endpoint}?{query}";
     }
-
-    private static readonly JsonSerializerOptions JsonOptions = new()
-    {
-        PropertyNameCaseInsensitive = true,
-        NumberHandling = JsonNumberHandling.AllowReadingFromString,
-    };
 }

@@ -1,9 +1,9 @@
-﻿using CoinMaster.Core.Entities;
+﻿namespace CoinMaster.Infrastructure.Mapping;
+
+using System.Globalization;
+using CoinMaster.Core.Entities;
 using CoinMaster.Shared.DTOs.CoinCap;
 using CoinMaster.Shared.DTOs.CoinGecko;
-using System.Globalization;
-
-namespace CoinMaster.Infrastructure.Mapping;
 
 public static class DtoMapper
 {
@@ -25,11 +25,11 @@ public static class DtoMapper
         return new Market
         {
             ExchangeName = dto.Market?.Name ?? "Unknown",
-            Base = dto.Base ?? "",
-            Target = dto.Target ?? "",
+            Base = dto.Base ?? string.Empty,
+            Target = dto.Target ?? string.Empty,
             Price = dto.LastPrice,
             Volume = dto.Volume,
-            TradeUrl = dto.TradeUrl
+            TradeUrl = dto.TradeUrl,
         };
     }
 
@@ -41,7 +41,7 @@ public static class DtoMapper
             Open = data[1],
             High = data[2],
             Low = data[3],
-            Close = data[4]
+            Close = data[4],
         };
     }
 }

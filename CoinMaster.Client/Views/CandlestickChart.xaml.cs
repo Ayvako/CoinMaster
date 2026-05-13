@@ -1,30 +1,20 @@
-using CoinMaster.Core.Entities;
+namespace CoinMaster.Client.Views;
+
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-
-namespace CoinMaster.Client.Views;
+using CoinMaster.Core.Entities;
 
 public partial class CandlestickChart : UserControl
 {
-
     public static readonly DependencyProperty CandlesProperty =
         DependencyProperty.Register(
             nameof(Candles),
             typeof(IEnumerable<Candle>),
             typeof(CandlestickChart),
             new FrameworkPropertyMetadata(null, OnCandlesChanged));
-
-    public IEnumerable<Candle> Candles
-    {
-        get => (IEnumerable<Candle>)GetValue(CandlesProperty);
-        set => SetValue(CandlesProperty, value);
-    }
-
-    private static void OnCandlesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        => ((CandlestickChart)d).Redraw();
 
     private const double PadTop = 8;
 
@@ -40,32 +30,71 @@ public partial class CandlestickChart : UserControl
 
     public CandlestickChart()
     {
-        InitializeComponent();
-        SizeChanged += (_, _) => Redraw();
+        this.InitializeComponent();
+        this.SizeChanged += (_, _) => this.Redraw();
+    }
+
+    public IEnumerable<Candle> Candles
+    {
+        get => (IEnumerable<Candle>)this.GetValue(CandlesProperty);
+        set => this.SetValue(CandlesProperty, value);
+    }
+
+    private static void OnCandlesChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    => ((CandlestickChart)d).Redraw();
+
+    private static TextBlock MakeLabel(string text, Brush foreground, double fontSize) =>
+        new()
+        {
+            Text = text,
+            Foreground = foreground,
+            FontSize = fontSize,
+        };
+
+    private static string FormatPrice(decimal price)
+    {
+        string format = price switch
+        {
+            >= 1000 => "N0",
+            >= 1 => "N2",
+            >= 0.01m => "N4",
+            _ => "N6",
+        };
+
+        return price.ToString(format, CultureInfo.InvariantCulture);
     }
 
     private void Redraw()
     {
-        ChartCanvas.Children.Clear();
-        YAxisCanvas.Children.Clear();
-        XAxisCanvas.Children.Clear();
+        this.ChartCanvas.Children.Clear();
+        this.YAxisCanvas.Children.Clear();
+        this.XAxisCanvas.Children.Clear();
 
-        var candles = Candles?.ToList();
-        if (candles is not { Count: > 0 }) return;
+        var candles = this.Candles?.ToList();
+        if (candles is not { Count: > 0 })
+        {
+            return;
+        }
 
-        double w = ChartCanvas.ActualWidth;
-        double h = ChartCanvas.ActualHeight;
-        if (w <= 0 || h <= 0) return;
+        double w = this.ChartCanvas.ActualWidth;
+        double h = this.ChartCanvas.ActualHeight;
+        if (w <= 0 || h <= 0)
+        {
+            return;
+        }
 
-        var bullish = TryFindResource("BullishBrush") as Brush ?? Brushes.Green;
-        var bearish = TryFindResource("BearishBrush") as Brush ?? Brushes.Red;
-        var gridBrush = TryFindResource("ChartGridBrush") as Brush ?? Brushes.LightGray;
-        var textBrush = TryFindResource("SecondaryTextBrush") as Brush ?? Brushes.Gray;
+        var bullish = this.TryFindResource("BullishBrush") as Brush ?? Brushes.Green;
+        var bearish = this.TryFindResource("BearishBrush") as Brush ?? Brushes.Red;
+        var gridBrush = this.TryFindResource("ChartGridBrush") as Brush ?? Brushes.LightGray;
+        var textBrush = this.TryFindResource("SecondaryTextBrush") as Brush ?? Brushes.Gray;
 
         decimal minLow = candles.Min(c => c.Low);
         decimal maxHigh = candles.Max(c => c.High);
         decimal range = maxHigh - minLow;
-        if (range == 0) range = 1;
+        if (range == 0)
+        {
+            range = 1;
+        }
 
         decimal margin = range * 0.05m;
         decimal yMin = minLow - margin;
@@ -73,11 +102,11 @@ public partial class CandlestickChart : UserControl
         decimal yRange = yMax - yMin;
 
         double ToY(decimal price) =>
-            PadTop + (double)((yMax - price) / yRange) * (h - PadTop - PadBottom);
+            PadTop + ((double)((yMax - price) / yRange) * (h - PadTop - PadBottom));
 
         for (int i = 0; i <= GridLines; i++)
         {
-            decimal price = yMin + yRange * i / GridLines;
+            decimal price = yMin + (yRange * i / GridLines);
             double y = ToY(price);
 
             var line = new Line
@@ -88,16 +117,16 @@ public partial class CandlestickChart : UserControl
                 Y2 = y,
                 Stroke = gridBrush,
                 StrokeThickness = 1,
-                StrokeDashArray = new DoubleCollection([4, 4])
+                StrokeDashArray = new DoubleCollection([4, 4]),
             };
-            ChartCanvas.Children.Add(line);
+            this.ChartCanvas.Children.Add(line);
 
             var tb = MakeLabel(FormatPrice(price), textBrush, 10);
             tb.Width = 54;
             tb.TextAlignment = TextAlignment.Right;
             Canvas.SetRight(tb, 4);
             Canvas.SetTop(tb, y - 8);
-            YAxisCanvas.Children.Add(tb);
+            this.YAxisCanvas.Children.Add(tb);
         }
 
         int count = candles.Count;
@@ -109,16 +138,16 @@ public partial class CandlestickChart : UserControl
         {
             var c = candles[i];
             Brush brush = c.IsBullish ? bullish : bearish;
-            double xCenter = PadLeft + i * slotW + slotW / 2;
+            double xCenter = PadLeft + (i * slotW) + (slotW / 2);
 
-            ChartCanvas.Children.Add(new Line
+            this.ChartCanvas.Children.Add(new Line
             {
                 X1 = xCenter,
                 X2 = xCenter,
                 Y1 = ToY(c.High),
                 Y2 = ToY(c.Low),
                 Stroke = brush,
-                StrokeThickness = wickW
+                StrokeThickness = wickW,
             });
 
             double bodyTop = ToY(Math.Max(c.Open, c.Close));
@@ -129,14 +158,14 @@ public partial class CandlestickChart : UserControl
             {
                 Width = bodyW,
                 Height = bodyHeight,
-                Fill = brush
+                Fill = brush,
             };
-            Canvas.SetLeft(rect, xCenter - bodyW / 2);
+            Canvas.SetLeft(rect, xCenter - (bodyW / 2));
             Canvas.SetTop(rect, bodyTop);
-            ChartCanvas.Children.Add(rect);
+            this.ChartCanvas.Children.Add(rect);
         }
 
-        DrawXLabels(candles, slotW, textBrush);
+        this.DrawXLabels(candles, slotW, textBrush);
     }
 
     private void DrawXLabels(List<Candle> candles, double slotW, Brush textBrush)
@@ -146,27 +175,13 @@ public partial class CandlestickChart : UserControl
 
         for (int i = 0; i < count; i += step)
         {
-            double x = i * slotW + slotW / 2 + PadLeft;
+            double x = (i * slotW) + (slotW / 2) + PadLeft;
             var tb = MakeLabel(candles[i].Timestamp.ToString("dd.MM"), textBrush, 10);
             tb.Width = 40;
             tb.TextAlignment = TextAlignment.Center;
             Canvas.SetLeft(tb, x - 20);
             Canvas.SetTop(tb, 2);
-            XAxisCanvas.Children.Add(tb);
+            this.XAxisCanvas.Children.Add(tb);
         }
     }
-
-    private static TextBlock MakeLabel(string text, Brush foreground, double fontSize) =>
-        new()
-        {
-            Text = text,
-            Foreground = foreground,
-            FontSize = fontSize
-        };
-
-    private static string FormatPrice(decimal price) =>
-        price >= 1000 ? price.ToString("N0", CultureInfo.InvariantCulture) :
-        price >= 1 ? price.ToString("N2", CultureInfo.InvariantCulture) :
-        price >= 0.01m ? price.ToString("N4", CultureInfo.InvariantCulture) :
-                         price.ToString("N6", CultureInfo.InvariantCulture);
 }

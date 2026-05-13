@@ -1,6 +1,6 @@
-﻿using System.Windows;
+﻿namespace CoinMaster.Client.Services;
 
-namespace CoinMaster.Client.Services;
+using System.Windows;
 
 public static class LocalizationService
 {
@@ -13,7 +13,7 @@ public static class LocalizationService
     {
         var dict = new ResourceDictionary
         {
-            Source = new Uri($"Resources/Localization/Strings.{lang}.xaml", UriKind.Relative)
+            Source = new Uri($"Resources/Localization/Strings.{lang}.xaml", UriKind.Relative),
         };
         var old = Application.Current.Resources.MergedDictionaries
             .First(d => d.Source?.OriginalString.Contains("Strings") == true);

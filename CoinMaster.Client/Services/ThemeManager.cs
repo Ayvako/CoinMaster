@@ -1,6 +1,6 @@
-using System.Windows;
-
 namespace CoinMaster.Client.Services;
+
+using System.Windows;
 
 public static class ThemeManager
 {
@@ -10,13 +10,16 @@ public static class ThemeManager
 
     private static bool isDark = true;
 
-    public static bool IsDark => isDark;
-
     public static event EventHandler<bool>? ThemeChanged;
+
+    public static bool IsDark => isDark;
 
     public static void Apply(bool isDark)
     {
-        if (ThemeManager.isDark == isDark) return;
+        if (ThemeManager.isDark == isDark)
+        {
+            return;
+        }
 
         ThemeManager.isDark = isDark;
         SwapDictionary(
@@ -28,10 +31,20 @@ public static class ThemeManager
 
     public static void Toggle() => Apply(!isDark);
 
+    public static void Initialize(bool? forceDark = null)
+    {
+        bool prefersDark = forceDark ?? DetectOsDarkMode();
+        isDark = !prefersDark;
+        Apply(prefersDark);
+    }
+
     private static void SwapDictionary(string removePath, string addPath)
     {
         var app = Application.Current;
-        if (app == null) return;
+        if (app == null)
+        {
+            return;
+        }
 
         var mergedDicts = app.Resources.MergedDictionaries;
 
@@ -39,19 +52,14 @@ public static class ThemeManager
             d.Source != null && d.Source.OriginalString.EndsWith(removePath, StringComparison.OrdinalIgnoreCase));
 
         if (oldDict != null)
+        {
             mergedDicts.Remove(oldDict);
+        }
 
         mergedDicts.Add(new ResourceDictionary
         {
-            Source = new Uri(addPath, UriKind.Relative)
+            Source = new Uri(addPath, UriKind.Relative),
         });
-    }
-
-    public static void Initialize(bool? forceDark = null)
-    {
-        bool prefersDark = forceDark ?? DetectOsDarkMode();
-        isDark = !prefersDark;
-        Apply(prefersDark);
     }
 
     private static bool DetectOsDarkMode()
@@ -60,10 +68,12 @@ public static class ThemeManager
         {
             using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(
                 @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize");
-            if (key?.GetValue("AppsUseLightTheme") is int value)
-                return value == 0;
+            var value = key?.GetValue("AppsUseLightTheme") as int? ?? 1;
+            return value == 0;
         }
-        catch { }
-        return true;
+        catch
+        {
+            return true;
+        }
     }
 }

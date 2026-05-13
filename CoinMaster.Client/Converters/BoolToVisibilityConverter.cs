@@ -1,10 +1,10 @@
-﻿using System.Globalization;
+﻿namespace CoinMaster.Client.Converters;
+
+using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace CoinMaster.Client.Converters;
-
-class BoolToVisibilityConverter : IValueConverter
+public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -14,6 +14,7 @@ class BoolToVisibilityConverter : IValueConverter
 
             return (boolValue ^ invert) ? Visibility.Visible : Visibility.Collapsed;
         }
+
         return Visibility.Collapsed;
     }
 

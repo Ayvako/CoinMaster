@@ -1,17 +1,17 @@
-﻿using System.Diagnostics;
+﻿namespace CoinMaster.Client.Views;
+
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CoinMaster.Client.Views;
-
 /// <summary>
-/// Логика взаимодействия для CoinDetailsView.xaml
+/// Логика взаимодействия для CoinDetailsView.xaml.
 /// </summary>
 public partial class CoinDetailsView : UserControl
 {
     public CoinDetailsView()
     {
-        InitializeComponent();
+        this.InitializeComponent();
     }
 
     private void OpenTradeUrl_Click(object sender, RoutedEventArgs e)

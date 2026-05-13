@@ -1,9 +1,9 @@
-﻿using System.Globalization;
+﻿namespace CoinMaster.Client.Converters;
+
+using System.Globalization;
 using System.Windows.Data;
 
-namespace CoinMaster.Client.Converters;
-
-class EqualityConverter : IMultiValueConverter
+public class EqualityConverter : IMultiValueConverter
 {
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         => values.Length == 2 && Equals(values[0], values[1]);

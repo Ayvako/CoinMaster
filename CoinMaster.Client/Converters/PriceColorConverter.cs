@@ -1,8 +1,8 @@
-﻿using System.Globalization;
+﻿namespace CoinMaster.Client.Converters;
+
+using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
-
-namespace CoinMaster.Client.Converters;
 
 public class PriceColorConverter : IValueConverter
 {
@@ -12,6 +12,7 @@ public class PriceColorConverter : IValueConverter
         {
             return change >= 0 ? Brushes.Green : Brushes.Red;
         }
+
         return Brushes.Black;
     }
 

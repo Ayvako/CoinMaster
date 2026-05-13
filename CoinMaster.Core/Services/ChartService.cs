@@ -1,7 +1,7 @@
-﻿using CoinMaster.Core.Entities;
-using CoinMaster.Core.Interfaces;
+﻿namespace CoinMaster.Core.Services;
 
-namespace CoinMaster.Core.Services;
+using CoinMaster.Core.Entities;
+using CoinMaster.Core.Interfaces;
 
 public class ChartService : IChartService
 {
@@ -14,6 +14,6 @@ public class ChartService : IChartService
 
     public Task<List<Candle>> GetOhlcAsync(string coinId, string days = "7", string currency = "usd")
     {
-        return chartProvider.GetOhlcAsync(coinId, days, currency);
+        return this.chartProvider.GetOhlcAsync(coinId, days, currency);
     }
 }
