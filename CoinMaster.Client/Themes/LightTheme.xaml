@@ -1,28 +1,27 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Backgrounds -->
-    <SolidColorBrush x:Key="AppBackgroundBrush"       Color="#F0F2F8" />
-    <SolidColorBrush x:Key="SurfaceBrush"             Color="#FFFFFF" />
-    <SolidColorBrush x:Key="SurfaceHoverBrush"        Color="#EFF6FF" />
-    <SolidColorBrush x:Key="SurfaceSelectedBrush"     Color="#DBEAFE" />
-    <SolidColorBrush x:Key="CardBorderBrush"          Color="#E2E6F0" />
-    <SolidColorBrush x:Key="GridLineBrush"            Color="#EEF0F6" />
+    <!--  Backgrounds  -->
+    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F0F2F8" />
+    <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="SurfaceHoverBrush" Color="#EFF6FF" />
+    <SolidColorBrush x:Key="SurfaceSelectedBrush" Color="#DBEAFE" />
+    <SolidColorBrush x:Key="CardBorderBrush" Color="#E2E6F0" />
+    <SolidColorBrush x:Key="GridLineBrush" Color="#EEF0F6" />
 
-    <!-- Text -->
-    <SolidColorBrush x:Key="PrimaryTextBrush"         Color="#111827" />
-    <SolidColorBrush x:Key="PriceTextBrush"           Color="#111827" />
-    <SolidColorBrush x:Key="SecondaryTextBrush"       Color="#6B7280" />
+    <!--  Text  -->
+    <SolidColorBrush x:Key="PrimaryTextBrush" Color="#111827" />
+    <SolidColorBrush x:Key="PriceTextBrush" Color="#111827" />
+    <SolidColorBrush x:Key="SecondaryTextBrush" Color="#6B7280" />
 
-    <SolidColorBrush x:Key="AccentBrush"              Color="#0077FF" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#0077FF" />
 
-    <!-- Chart candles -->
-    <SolidColorBrush x:Key="BullishBrush"             Color="#18A05A" />
-    <SolidColorBrush x:Key="BearishBrush"             Color="#E03232" />
-    <SolidColorBrush x:Key="ChartGridBrush"           Color="#EEF0F6" />
+    <!--  Chart candles  -->
+    <SolidColorBrush x:Key="BullishBrush" Color="#18A05A" />
+    <SolidColorBrush x:Key="BearishBrush" Color="#E03232" />
+    <SolidColorBrush x:Key="ChartGridBrush" Color="#EEF0F6" />
 
-    <!-- Column header -->
-    <SolidColorBrush x:Key="HeaderBackgroundBrush"    Color="#FAFBFD" />
-    <SolidColorBrush x:Key="HeaderForegroundBrush"    Color="#9CA3AF" />
+    <!--  Column header  -->
+    <SolidColorBrush x:Key="HeaderBackgroundBrush" Color="#FAFBFD" />
+    <SolidColorBrush x:Key="HeaderForegroundBrush" Color="#9CA3AF" />
 
 </ResourceDictionary>
