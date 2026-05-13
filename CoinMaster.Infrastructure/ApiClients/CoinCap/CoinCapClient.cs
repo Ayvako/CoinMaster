@@ -6,10 +6,18 @@ using CoinMaster.Shared.DTOs.CoinCap;
 
 namespace CoinMaster.Infrastructure.ApiClients.CoinCap;
 
-public class CoinCapClient : BaseApiClient, ICoinProvider
+public class CoinCapClient : BaseApiClient, ICoinProvider, IConverterProvider
 {
     public CoinCapClient(HttpClient httpClient)
         : base(httpClient) { }
+
+    public async Task<decimal> ConvertAsync(string fromCoinId, string toCoinId, decimal amount)
+    {
+        var fromCoin = await SearchCoinsAsync(fromCoinId);
+        var toCoin = await SearchCoinsAsync(toCoinId);
+
+        return amount * (fromCoin.FirstOrDefault()?.PriceUsd ?? 0) / (toCoin.FirstOrDefault()?.PriceUsd ?? 1);
+    }
 
     public async Task<Coin?> GetDetailsAsync(string id)
     {

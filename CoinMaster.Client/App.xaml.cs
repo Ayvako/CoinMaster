@@ -44,7 +44,7 @@ public partial class App : Application
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddSingleton(Configuration);
-        services.AddHttpClient<ICoinProvider, CoinCapClient>(client =>
+        services.AddHttpClient<CoinCapClient>(client =>
         {
             client.BaseAddress = new Uri(Configuration["CoinCap:BaseUrl"]);
             var apiKey = Configuration["CoinCap:ApiKey"];
@@ -69,16 +69,20 @@ public partial class App : Application
         services.AddTransient<IChartProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
         services.AddTransient<IMarketProvider>(sp => sp.GetRequiredService<CoinGeckoClient>());
 
+        services.AddTransient<IConverterProvider>(sp => sp.GetRequiredService<CoinCapClient>());
+        services.AddTransient<ICoinProvider>(sp => sp.GetRequiredService<CoinCapClient>());
+
         services.AddTransient<ICoinService, CoinService>();
         services.AddTransient<IChartService, ChartService>();
         services.AddTransient<IMarketService, MarketService>();
+        services.AddTransient<IConverterService, ConverterService>();
 
         services.AddTransient<MainWindow>();
         services.AddSingleton<MainWindowViewModel>();
         services.AddSingleton<MainViewModel>();
         services.AddTransient<CoinDetailsViewModel>();
+        services.AddTransient<ConverterViewModel>();
 
         services.AddSingleton<INavigationService, NavigationService>();
-
     }
 }

@@ -1,0 +1,223 @@
+﻿<UserControl
+    x:Class="CoinMaster.Client.Views.ConverterView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="clr-namespace:CoinMaster.Client.Views"
+    xmlns:vm="clr-namespace:CoinMaster.Client.ViewModels"
+    d:DataContext="{d:DesignInstance Type=vm:ConverterViewModel}"
+    d:DesignHeight="400"
+    d:DesignWidth="600"
+    Background="{DynamicResource AppBackgroundBrush}"
+    mc:Ignorable="d">
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+
+            <StackPanel
+                MinWidth="400"
+                MaxWidth="620"
+                Margin="24">
+
+                <TextBlock
+                    Margin="0,0,0,4"
+                    FontSize="26"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="Конвертер" />
+                <TextBlock
+                    Margin="0,0,0,10"
+                    FontSize="13"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Text="Розрахуйте вартість однієї криптовалюти в іншій" />
+
+                <!--  FROM card  -->
+                <Border
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="180" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="ВІДПРАВЛЯЮ" />
+                            <TextBox
+                                Padding="0"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                CaretBrush="{DynamicResource AccentBrush}"
+                                FontFamily="Consolas"
+                                FontSize="28"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                SelectionBrush="{DynamicResource AccentBrush}"
+                                Text="{Binding FromAmount, UpdateSourceTrigger=PropertyChanged}" />
+                        </StackPanel>
+                        <views:CoinSelectorControl
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            AllCoins="{Binding AllCoins}"
+                            SelectedCoin="{Binding FromCoin, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+
+                <!--  Swap  -->
+                <Button
+                    Width="20"
+                    Height="20"
+                    Margin="0,4"
+                    HorizontalAlignment="Center"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    Command="{Binding SwapCommand}"
+                    Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border
+                                Width="20"
+                                Height="20"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    Foreground="{DynamicResource AccentBrush}"
+                                    Text="⇅" />
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                <!--  TO card  -->
+                <Border
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="8" />
+                            <ColumnDefinition Width="180" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock
+                                Margin="0,0,0,8"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="ОТРИМУЮ" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontFamily="Consolas"
+                                FontSize="28"
+                                FontWeight="Bold">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Text" Value="{Binding ResultAmount}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding HasResult}" Value="False">
+                                                <Setter Property="Text" Value="—" />
+                                                <Setter Property="Foreground" Value="{DynamicResource SecondaryTextBrush}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                        <views:CoinSelectorControl
+                            Grid.Column="2"
+                            VerticalAlignment="Center"
+                            AllCoins="{Binding AllCoins}"
+                            SelectedCoin="{Binding ToCoin, Mode=TwoWay}" />
+                    </Grid>
+                </Border>
+
+                <!--  Convert button  -->
+                <Button
+                    Margin="0,10,0,0"
+                    Padding="0,5"
+                    HorizontalAlignment="Stretch"
+                    Background="{DynamicResource AccentBrush}"
+                    BorderThickness="0"
+                    Command="{Binding ConvertCommand}"
+                    Cursor="Hand">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" />
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=IsEnabled}" Value="False">
+                                                <Setter Property="Opacity" Value="0.4" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,8,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="⏳"
+                            Visibility="{Binding IsLoading, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            FontSize="14"
+                            FontWeight="Bold"
+                            Foreground="White">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Text" Value="Конвертувати" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsLoading}" Value="True">
+                                            <Setter Property="Text" Value="Завантаження..." />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                <!--  Rate hint  -->
+                <TextBlock
+                    MaxWidth="400"
+                    Margin="0,12,0,0"
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    FontWeight="SemiBold"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Text="{Binding ExchangeRateHint}"
+                    TextAlignment="Center"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding HasResult, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

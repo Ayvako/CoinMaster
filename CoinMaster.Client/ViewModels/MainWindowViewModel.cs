@@ -17,6 +17,12 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private string themeIcon = "☀";
 
+    [ObservableProperty]
+    private bool isOnConverter;
+
+    partial void OnCurrentViewModelChanged(object value)
+        => IsOnConverter = value is ConverterViewModel;
+
     private void UpdateThemeIcon() => ThemeIcon = ThemeManager.IsDark ? "☀" : "☾";
 
     public MainWindowViewModel(MainViewModel mainVm, INavigationService navigation)
@@ -32,6 +38,12 @@ public partial class MainWindowViewModel : ObservableObject
             CanNavigateBack = value;
             GoBackCommand.NotifyCanExecuteChanged();
         };
+    }
+
+    [RelayCommand]
+    private void NavigateToConverter()
+    {
+        navigation.NavigateTo<ConverterViewModel>();
     }
 
     [RelayCommand]

@@ -8,7 +8,7 @@
     xmlns:vm="clr-namespace:CoinMaster.Client.ViewModels"
     Title="CoinMaster"
     Width="1200"
-    Height="700"
+    Height="800"
     d:DataContext="{d:DesignInstance Type=vm:MainWindowViewModel}"
     Background="{DynamicResource AppBackgroundBrush}"
     mc:Ignorable="d">
@@ -57,6 +57,10 @@
         <DataTemplate DataType="{x:Type vm:CoinDetailsViewModel}">
             <views:CoinDetailsView />
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:ConverterViewModel}">
+            <views:ConverterView />
+        </DataTemplate>
     </Window.Resources>
 
     <Grid>
@@ -70,6 +74,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <Button
@@ -82,6 +87,14 @@
 
             <Button
                 Grid.Column="2"
+                Margin="0,0,8,0"
+                VerticalAlignment="Center"
+                Command="{Binding NavigateToConverterCommand}"
+                Content="⇄ Конвертер"
+                Style="{StaticResource NavigationBackButtonStyle}"
+                Visibility="{Binding IsOnConverter, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=invert}" />
+            <Button
+                Grid.Column="3"
                 Width="36"
                 Height="36"
                 VerticalAlignment="Center"
