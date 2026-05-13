@@ -1,16 +1,18 @@
-﻿<UserControl x:Class="CoinMaster.Client.Views.CoinDetailsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewmodels="clr-namespace:CoinMaster.Client.ViewModels"
-             xmlns:views="clr-namespace:CoinMaster.Client.Views"
-             d:DataContext="{d:DesignInstance Type=viewmodels:CoinDetailsViewModel}"
-             mc:Ignorable="d"
-             d:DesignHeight="700" d:DesignWidth="900"
-             Background="{DynamicResource AppBackgroundBrush}">
+﻿<UserControl
+    x:Class="CoinMaster.Client.Views.CoinDetailsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:CoinMaster.Client.ViewModels"
+    xmlns:views="clr-namespace:CoinMaster.Client.Views"
+    d:DataContext="{d:DesignInstance Type=viewmodels:CoinDetailsViewModel}"
+    d:DesignHeight="700"
+    d:DesignWidth="900"
+    Background="{DynamicResource AppBackgroundBrush}"
+    mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -19,71 +21,145 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,24">
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,0,0,24"
+                Orientation="Horizontal">
 
-                <Border Background="{DynamicResource SurfaceBrush}"
-                        BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1"
-                        CornerRadius="6" Padding="8,4" VerticalAlignment="Center" Margin="0,0,12,0">
-                    <TextBlock Text="{Binding Coin.Rank, StringFormat=#{0}}"
-                               FontWeight="Bold" Foreground="{DynamicResource PrimaryTextBrush}" />
-                </Border>
-
-                <TextBlock Text="{Binding Coin.Name}"
-                           FontSize="28" FontWeight="Bold"
-                           Foreground="{DynamicResource PrimaryTextBrush}"
-                           VerticalAlignment="Center" />
-
-                <TextBlock Text="{Binding Coin.Symbol}"
-                           FontSize="16" FontWeight="SemiBold"
-                           Foreground="{DynamicResource SecondaryTextBrush}"
-                           VerticalAlignment="Center" Margin="12,4,0,0" />
-            </StackPanel>
-
-            <Border Grid.Row="1"
+                <Border
+                    Margin="0,0,12,0"
+                    Padding="8,4"
+                    VerticalAlignment="Center"
                     Background="{DynamicResource SurfaceBrush}"
                     BorderBrush="{DynamicResource CardBorderBrush}"
                     BorderThickness="1"
-                    CornerRadius="12"
-                    Padding="24" Margin="0,0,0,24">
-                <StackPanel>
-                    <TextBlock Text="Поточна ціна" FontSize="14" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,8" />
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <TextBlock Text="{Binding Coin.PriceUsd, Converter={StaticResource PriceConverter}}"
-                                   FontSize="42" FontWeight="Bold" FontFamily="Consolas"
-                                   Foreground="{DynamicResource PrimaryTextBrush}" />
+                    CornerRadius="6">
+                    <TextBlock
+                        FontWeight="Bold"
+                        Foreground="{DynamicResource PrimaryTextBrush}"
+                        Text="{Binding Coin.Rank, StringFormat=#{0}}" />
+                </Border>
 
-                        <Border Background="Transparent" Padding="12,0,0,8" VerticalAlignment="Bottom">
-                            <TextBlock Text="{Binding Coin.Change24Hr, Converter={StaticResource CompactPercentConverter}}"
-                                       Foreground="{Binding Coin.Change24Hr, Converter={StaticResource PriceColorConverter}}"
-                                       FontSize="20" FontWeight="Bold" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="28"
+                    FontWeight="Bold"
+                    Foreground="{DynamicResource PrimaryTextBrush}"
+                    Text="{Binding Coin.Name}" />
+
+                <TextBlock
+                    Margin="12,4,0,0"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Foreground="{DynamicResource SecondaryTextBrush}"
+                    Text="{Binding Coin.Symbol}" />
+            </StackPanel>
+
+            <Border
+                Grid.Row="1"
+                Margin="0,0,0,24"
+                Padding="24"
+                Background="{DynamicResource SurfaceBrush}"
+                BorderBrush="{DynamicResource CardBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="12">
+                <StackPanel>
+                    <TextBlock
+                        Margin="0,0,0,8"
+                        FontSize="14"
+                        Foreground="{DynamicResource SecondaryTextBrush}"
+                        Text="Поточна ціна" />
+                    <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal">
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="42"
+                            FontWeight="Bold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding Coin.PriceUsd, Converter={StaticResource PriceConverter}}" />
+
+                        <Border
+                            Padding="12,0,0,8"
+                            VerticalAlignment="Bottom"
+                            Background="Transparent">
+                            <TextBlock
+                                FontSize="20"
+                                FontWeight="Bold"
+                                Foreground="{Binding Coin.Change24Hr, Converter={StaticResource PriceColorConverter}}"
+                                Text="{Binding Coin.Change24Hr, Converter={StaticResource CompactPercentConverter}}" />
                         </Border>
                     </StackPanel>
                 </StackPanel>
             </Border>
 
-            <UniformGrid Grid.Row="2" Columns="3" Margin="0,0,0,24">
+            <UniformGrid
+                Grid.Row="2"
+                Margin="0,0,0,24"
+                Columns="3">
 
-                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="20" Margin="0,0,8,0">
+                <Border
+                    Margin="0,0,8,0"
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
                     <StackPanel>
-                        <TextBlock Text="Капіталізація (Market Cap)" FontSize="13" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,8" />
-                        <TextBlock Text="{Binding Coin.MarketCapUsd, StringFormat=${0:N0}}"
-                                   FontSize="20" FontWeight="SemiBold" FontFamily="Consolas" Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontSize="13"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="Капіталізація (Market Cap)" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding Coin.MarketCapUsd, StringFormat=${0:N0}}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="20" Margin="8,0,8,0">
+                <Border
+                    Margin="8,0,8,0"
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
                     <StackPanel>
-                        <TextBlock Text="Об'єм (24 год)" FontSize="13" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,8" />
-                        <TextBlock Text="{Binding Coin.VolumeUsd24Hr, StringFormat=${0:N0}}"
-                                   FontSize="20" FontWeight="SemiBold" FontFamily="Consolas" Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontSize="13"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="Об'єм (24 год)" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding Coin.VolumeUsd24Hr, StringFormat=${0:N0}}" />
                     </StackPanel>
                 </Border>
 
-                <Border Background="{DynamicResource SurfaceBrush}" BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1" CornerRadius="12" Padding="20" Margin="8,0,0,0">
+                <Border
+                    Margin="8,0,0,0"
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
                     <StackPanel>
-                        <TextBlock Text="Макс. пропозиція" FontSize="13" Foreground="{DynamicResource SecondaryTextBrush}" Margin="0,0,0,8" />
-                        <TextBlock Text="{Binding Coin.MaxSupply, StringFormat={}{0:N0}, TargetNullValue='Безліміт'}"
-                                   FontSize="20" FontWeight="SemiBold" FontFamily="Consolas" Foreground="{DynamicResource PrimaryTextBrush}" />
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            FontSize="13"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="Макс. пропозиція" />
+                        <TextBlock
+                            FontFamily="Consolas"
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="{Binding Coin.MaxSupply, StringFormat={}{0:N0}, TargetNullValue='Безліміт'}" />
                     </StackPanel>
                 </Border>
 
@@ -95,22 +171,26 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Border Grid.Column="0"
-                        Background="{DynamicResource SurfaceBrush}"
-                        BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1" CornerRadius="12"
-                        Padding="20" Margin="0,0,12,0"
-                        MinHeight="280">
+                <Border
+                    Grid.Column="0"
+                    MinHeight="280"
+                    Margin="0,0,12,0"
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
                     <DockPanel>
 
-                        <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
-                            <TextBlock Text="Графік цін"
-                                       FontSize="14" FontWeight="SemiBold"
-                                       Foreground="{DynamicResource PrimaryTextBrush}"
-                                       VerticalAlignment="Center" />
+                        <Grid Margin="0,0,0,14" DockPanel.Dock="Top">
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="SemiBold"
+                                Foreground="{DynamicResource PrimaryTextBrush}"
+                                Text="Графік цін" />
 
-                            <ItemsControl HorizontalAlignment="Right"
-                                          ItemsSource="{Binding Periods}">
+                            <ItemsControl HorizontalAlignment="Right" ItemsSource="{Binding Periods}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal" />
@@ -118,23 +198,26 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate DataType="{x:Type viewmodels:PeriodOption}">
-                                        <Border x:Name="PeriodBorder"
-                                                Margin="2,0"
-                                                Padding="10,4"
-                                                CornerRadius="4"
-                                                Cursor="Hand"
-                                                Background="Transparent"
-                                                BorderBrush="{DynamicResource CardBorderBrush}"
-                                                BorderThickness="1">
+                                        <Border
+                                            x:Name="PeriodBorder"
+                                            Margin="2,0"
+                                            Padding="10,4"
+                                            Background="Transparent"
+                                            BorderBrush="{DynamicResource CardBorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="4"
+                                            Cursor="Hand">
                                             <Border.InputBindings>
-                                                <MouseBinding MouseAction="LeftClick"
-                                                    Command="{Binding DataContext.SelectPeriodCommand,
-                                                        RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                    CommandParameter="{Binding}" />
+                                                <MouseBinding
+                                                    Command="{Binding DataContext.SelectPeriodCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                    CommandParameter="{Binding}"
+                                                    MouseAction="LeftClick" />
                                             </Border.InputBindings>
-                                            <TextBlock Text="{Binding Label}"
-                                                       FontSize="12" FontWeight="SemiBold"
-                                                       Foreground="{DynamicResource SecondaryTextBrush}" />
+                                            <TextBlock
+                                                FontSize="12"
+                                                FontWeight="SemiBold"
+                                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                                Text="{Binding Label}" />
                                         </Border>
 
                                         <DataTemplate.Triggers>
@@ -142,14 +225,11 @@
                                                 <DataTrigger.Binding>
                                                     <MultiBinding Converter="{StaticResource EqualityConverter}">
                                                         <Binding />
-                                                        <Binding Path="DataContext.SelectedPeriod"
-                                                                 RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                                        <Binding Path="DataContext.SelectedPeriod" RelativeSource="{RelativeSource AncestorType=UserControl}" />
                                                     </MultiBinding>
                                                 </DataTrigger.Binding>
-                                                <Setter TargetName="PeriodBorder" Property="Background"
-                                                        Value="{DynamicResource AccentBrush}" />
-                                                <Setter TargetName="PeriodBorder" Property="BorderBrush"
-                                                        Value="{DynamicResource AccentBrush}" />
+                                                <Setter TargetName="PeriodBorder" Property="Background" Value="{DynamicResource AccentBrush}" />
+                                                <Setter TargetName="PeriodBorder" Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
                                             </DataTrigger>
                                         </DataTemplate.Triggers>
                                     </DataTemplate>
@@ -157,119 +237,194 @@
                             </ItemsControl>
                         </Grid>
 
-                        <TextBlock DockPanel.Dock="Top"
-                                   Text="Завантаження..."
-                                   FontSize="13"
-                                   Foreground="{DynamicResource SecondaryTextBrush}"
-                                   HorizontalAlignment="Center"
-                                   Margin="0,0,0,8"
-                                   Visibility="{Binding IsLoadingChart,
-                                       Converter={StaticResource BoolToVisibilityConverter}}" />
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            HorizontalAlignment="Center"
+                            DockPanel.Dock="Top"
+                            FontSize="13"
+                            Foreground="{DynamicResource SecondaryTextBrush}"
+                            Text="Завантаження..."
+                            Visibility="{Binding IsLoadingChart, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-                        <views:CandlestickChart Candles="{Binding Candles}"
-                                                   MinHeight="220" />
+                        <Grid>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding Candles, Converter={StaticResource EmptyToVisibleConverter}}">
+                                <TextBlock
+                                    Margin="0,0,0,10"
+                                    HorizontalAlignment="Center"
+                                    FontSize="36"
+                                    Opacity="0.35"
+                                    Text="📈" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="13"
+                                    FontWeight="SemiBold"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Text="Немає даних для відображення" />
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    HorizontalAlignment="Center"
+                                    FontSize="11"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Opacity="0.7"
+                                    Text="Оберіть інший період або спробуйте пізніше" />
+                            </StackPanel>
+
+                            <!--  Chart  -->
+                            <views:CandlestickChart
+                                MinHeight="220"
+                                Candles="{Binding Candles}"
+                                Visibility="{Binding Candles, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=invert}" />
+                        </Grid>
                     </DockPanel>
                 </Border>
 
-                <Border Grid.Column="1"
-                        Background="{DynamicResource SurfaceBrush}"
-                        BorderBrush="{DynamicResource CardBorderBrush}"
-                        BorderThickness="1" CornerRadius="12"
-                        Padding="20" Margin="12,0,0,0"
-                        MinHeight="200">
+                <Border
+                    Grid.Column="1"
+                    MinHeight="200"
+                    Margin="12,0,0,0"
+                    Padding="20"
+                    Background="{DynamicResource SurfaceBrush}"
+                    BorderBrush="{DynamicResource CardBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
                     <DockPanel>
 
-                        <TextBlock DockPanel.Dock="Top"
-                                   Text="Біржі"
-                                   FontSize="14" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource PrimaryTextBrush}"
-                                   Margin="0,0,0,12" />
+                        <TextBlock
+                            Margin="0,0,0,12"
+                            DockPanel.Dock="Top"
+                            FontSize="14"
+                            FontWeight="SemiBold"
+                            Foreground="{DynamicResource PrimaryTextBrush}"
+                            Text="Біржі" />
 
-                        <Grid DockPanel.Dock="Top" Margin="0,0,0,6">
+                        <Grid Margin="0,0,0,6" DockPanel.Dock="Top">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="70" />
                                 <ColumnDefinition Width="70" />
                                 <ColumnDefinition Width="24" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="НАЗВА"
-                                       FontSize="11" FontWeight="Bold"
-                                       Foreground="{DynamicResource SecondaryTextBrush}" />
-                            <TextBlock Grid.Column="1" Text="ЦІНА"
-                                       FontSize="11" FontWeight="Bold"
-                                       Foreground="{DynamicResource SecondaryTextBrush}"
-                                       HorizontalAlignment="Right" />
-                            <TextBlock Grid.Column="2" Text="ОБ'ЄМ"
-                                       FontSize="11" FontWeight="Bold"
-                                       Foreground="{DynamicResource SecondaryTextBrush}"
-                                       HorizontalAlignment="Right" />
+                            <TextBlock
+                                Grid.Column="0"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="НАЗВА" />
+                            <TextBlock
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="ЦІНА" />
+                            <TextBlock
+                                Grid.Column="2"
+                                HorizontalAlignment="Right"
+                                FontSize="11"
+                                FontWeight="Bold"
+                                Foreground="{DynamicResource SecondaryTextBrush}"
+                                Text="ОБ'ЄМ" />
                         </Grid>
 
-                        <Border DockPanel.Dock="Top"
-                                Height="1"
-                                Background="{DynamicResource CardBorderBrush}"
-                                Margin="0,0,0,4" />
+                        <Border
+                            Height="1"
+                            Margin="0,0,0,4"
+                            Background="{DynamicResource CardBorderBrush}"
+                            DockPanel.Dock="Top" />
 
-                        <ItemsControl ItemsSource="{Binding Coin.Markets}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Padding="0,7"
+                        <Grid>
+                            <StackPanel
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Visibility="{Binding Coin.Markets, Converter={StaticResource EmptyToVisibleConverter}}">
+                                <TextBlock
+                                    Margin="0,0,0,10"
+                                    HorizontalAlignment="Center"
+                                    FontSize="32"
+                                    Opacity="0.35"
+                                    Text="🏦" />
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    FontSize="12"
+                                    FontWeight="SemiBold"
+                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                    Text="Немає даних про біржі" />
+                            </StackPanel>
+
+                            <!--  Markets list  -->
+                            <ItemsControl ItemsSource="{Binding Coin.Markets}" Visibility="{Binding Coin.Markets, Converter={StaticResource EmptyToVisibleConverter}, ConverterParameter=invert}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border
+                                            Padding="0,7"
                                             BorderBrush="{DynamicResource GridLineBrush}"
                                             BorderThickness="0,0,0,1">
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="70" />
-                                                <ColumnDefinition Width="70" />
-                                                <ColumnDefinition Width="24" />
-                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="70" />
+                                                    <ColumnDefinition Width="70" />
+                                                    <ColumnDefinition Width="24" />
+                                                </Grid.ColumnDefinitions>
 
-                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding ExchangeName}"
-                                                           FontSize="12" FontWeight="SemiBold"
-                                                           Foreground="{DynamicResource PrimaryTextBrush}"
-                                                           TextTrimming="CharacterEllipsis" />
-                                                <TextBlock FontSize="11"
-                                                           Foreground="{DynamicResource SecondaryTextBrush}">
-                                                    <Run Text="{Binding Base}" /><Run Text="/" /><Run Text="{Binding Target}" />
-                                                </TextBlock>
-                                            </StackPanel>
+                                                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                    <TextBlock
+                                                        FontSize="12"
+                                                        FontWeight="SemiBold"
+                                                        Foreground="{DynamicResource PrimaryTextBrush}"
+                                                        Text="{Binding ExchangeName}"
+                                                        TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock FontSize="11" Foreground="{DynamicResource SecondaryTextBrush}">
+                                                        <Run Text="{Binding Base}" /><Run Text="/" /><Run Text="{Binding Target}" />
+                                                    </TextBlock>
+                                                </StackPanel>
 
-                                            <TextBlock Grid.Column="1"
-                                                       Text="{Binding Price, Converter={StaticResource PriceConverter}}"
-                                                       FontSize="12" FontFamily="Consolas"
-                                                       Foreground="{DynamicResource PriceTextBrush}"
-                                                       HorizontalAlignment="Right"
-                                                       VerticalAlignment="Center" />
-
-                                            <TextBlock Grid.Column="2"
-                                                       Text="{Binding Volume, Converter={StaticResource CompactConverter}}"
-                                                       FontSize="11" FontFamily="Consolas"
-                                                       Foreground="{DynamicResource SecondaryTextBrush}"
-                                                       HorizontalAlignment="Right"
-                                                       VerticalAlignment="Center" />
-
-                                            <Button Grid.Column="3"
-                                                    Width="20" Height="20"
-                                                    Padding="0"
+                                                <TextBlock
+                                                    Grid.Column="1"
+                                                    HorizontalAlignment="Right"
                                                     VerticalAlignment="Center"
+                                                    FontFamily="Consolas"
+                                                    FontSize="12"
+                                                    Foreground="{DynamicResource PriceTextBrush}"
+                                                    Text="{Binding Price, Converter={StaticResource PriceConverter}}" />
+
+                                                <TextBlock
+                                                    Grid.Column="2"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    FontFamily="Consolas"
+                                                    FontSize="11"
+                                                    Foreground="{DynamicResource SecondaryTextBrush}"
+                                                    Text="{Binding Volume, Converter={StaticResource CompactConverter}}" />
+
+                                                <Button
+                                                    Grid.Column="3"
+                                                    Width="20"
+                                                    Height="20"
+                                                    Padding="0"
                                                     HorizontalAlignment="Center"
-                                                    Cursor="Hand"
+                                                    VerticalAlignment="Center"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    ToolTip="Відкрити на біржі"
-                                                    Tag="{Binding TradeUrl}"
                                                     Click="OpenTradeUrl_Click"
-                                                    Visibility="{Binding TradeUrl,
-                                                        Converter={StaticResource NullToCollapsedConverter}}">
-                                                <TextBlock Text="↗" FontSize="13"
-                                                           Foreground="{DynamicResource AccentBrush}" />
-                                            </Button>
-                                        </Grid>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                                    Cursor="Hand"
+                                                    Tag="{Binding TradeUrl}"
+                                                    ToolTip="Відкрити на біржі"
+                                                    Visibility="{Binding TradeUrl, Converter={StaticResource NullToCollapsedConverter}}">
+                                                    <TextBlock
+                                                        FontSize="13"
+                                                        Foreground="{DynamicResource AccentBrush}"
+                                                        Text="↗" />
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
 
                     </DockPanel>
                 </Border>

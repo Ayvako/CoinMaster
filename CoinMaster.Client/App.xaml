@@ -19,7 +19,7 @@
             <converters:NullToCollapsedConverter x:Key="NullToCollapsedConverter" />
             <converters:EqualityConverter x:Key="EqualityConverter" />
             <converters:CompactConverter x:Key="CompactConverter" />
-
+            <converters:EmptyToVisibleConverter x:Key="EmptyToVisibleConverter" />
         </ResourceDictionary>
     </Application.Resources>
 
