@@ -2,6 +2,7 @@
 
 using CoinMaster.Core.Entities;
 using CoinMaster.Core.Interfaces;
+using Microsoft.Extensions.Caching.Memory;
 
 public class CoinService : ICoinService
 {
@@ -11,29 +12,58 @@ public class CoinService : ICoinService
 
     private readonly IChartService chartService;
 
-    public CoinService(ICoinProvider coinProvider, IMarketService marketService, IChartService chartService)
+    private readonly IMemoryCache cache;
+
+    public CoinService(ICoinProvider coinProvider, IMarketService marketService, IChartService chartService, IMemoryCache cache)
     {
         this.coinProvider = coinProvider;
         this.marketService = marketService;
         this.chartService = chartService;
+        this.cache = cache;
     }
 
-    public async Task<Coin> GetDetailsAsync(string id, string days = "7")
+    public async Task<Coin?> GetDetailsAsync(string id, string days = "7")
     {
-        var coinTask = this.coinProvider.GetDetailsAsync(id);
+        string coinCacheKey = $"coin_base_{id}";
+        var coin = await this.cache.GetOrCreateAsync(coinCacheKey, async entry =>
+        {
+            var result = await this.coinProvider.GetDetailsAsync(id);
+
+            if (result == null)
+            {
+                entry.SetAbsoluteExpiration(TimeSpan.Zero);
+                return null;
+            }
+
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(10);
+            return result;
+        });
+
+        if (coin == null)
+        {
+            return null;
+        }
+
         var marketsTask = this.marketService.GetMarketsAsync(id);
         var ohlcTask = this.chartService.GetOhlcAsync(id, days);
 
-        await Task.WhenAll(coinTask, marketsTask, ohlcTask);
-        var coin = coinTask.Result;
+        await Task.WhenAll(marketsTask, ohlcTask);
 
-        coin.Markets = marketsTask.Result?.Take(10).ToList() ?? [];
-        coin.OhlcData = ohlcTask.Result ?? [];
+        coin.Markets = (await marketsTask)?.Take(10).ToList() ?? [];
+        coin.OhlcData = await ohlcTask ?? [];
         return coin;
     }
 
-    public Task<List<Coin>> GetTopCoinsAsync(int limit = 10)
-        => this.coinProvider.GetTopCoinsAsync(limit);
+    public Task<List<Coin>?> GetTopCoinsAsync(int limit = 10)
+    {
+        string cacheKey = $"top_coins_{limit}";
+
+        return this.cache.GetOrCreateAsync(cacheKey, entry =>
+        {
+            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
+            return this.coinProvider.GetTopCoinsAsync(limit);
+        });
+    }
 
     public Task<List<Coin>> SearchCoinsAsync(string searchQuery)
         => this.coinProvider.SearchCoinsAsync(searchQuery);

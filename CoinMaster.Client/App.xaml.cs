@@ -7,6 +7,7 @@ using CoinMaster.Core.Interfaces;
 using CoinMaster.Core.Services;
 using CoinMaster.Infrastructure.ApiClients.CoinCap;
 using CoinMaster.Infrastructure.ApiClients.CoinGecko;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -43,6 +44,7 @@ public partial class App : Application
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddMemoryCache();
         services.AddSingleton(Configuration);
         services.AddHttpClient<CoinCapClient>(client =>
         {
